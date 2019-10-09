@@ -11,4 +11,4 @@ Se podrá añadir, consultar, modificar y eliminar tanto los productos como los 
 ### Herramientas
 - **Lenguaje:** Node.js  
 - **Framework:** Express.js  
-- **Base de datos:** MongoDB en [MongoDB Atlas] usando Mongoose(https://www.mongodb.com/cloud/atlas)  
+- **Base de datos:** MongoDB en [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) usando Mongoose  
