@@ -34,7 +34,7 @@ Se utilizará una arquitectura basada en microservicios en el que existirá un m
 
 Los usuarios mandarán las peticiones a una **API Gateway** que será la encargada de redireccionar las peticiones al microservicio correspondiente. Esta API Gateway será implementada con el lenguaje **Go**, ya que se conseguirá que la API sea concurrente de una forma sencilla.  
 
-El **Microservicio 1** se encargará de gestionar los pedidos, de forma que se pueda crear un nuevo pedido, consultar los pedidos, borrarlos o modificarlos. Este microservicio será implementado en **Python** y como framework utilizaré **Flask** por la sencillez de implementación. Para almacenar la información usaré **PostgreSQL** por su gran rendimiento.  
+El **Microservicio 1** se encargará de gestionar los pedidos, de forma que se pueda crear un nuevo pedido, consultar los pedidos, borrarlos o modificarlos. Este microservicio será implementado en **Python** y como framework utilizaré **Flask** por la sencillez de implementación. Para almacenar la información usaré **Redis**, que esta basado en tablas de hashes (clave/valor).  
 
 El **Microservicio 2** se encargará de gestionar los productos, de forma que se pueda crear un nuevo producto, consultarlos, modificarlos o borrarlos. Este microservicio será implementado en **Node.js** y como framework utilizaré **Express**, ya que es uno de los frameworks más utilizados junto a Node.js.  
 
