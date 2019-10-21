@@ -2,13 +2,31 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-## Microservicio de Gestión de Pedidos
+## Descripción
 
-El microservicio permitirá gestionar pedidos. Cada pedido dispondrá de un número de pedido, el nombre del destinatario, la dirección de envío, los productos junto a las cantidades que se desean y el estado del pedido (No procesado, Procesado, Entregando, Entregado). Cada producto dispondrá de un identificador del producto, el nombre y la cantidad disponible.  
+El proyecto contendrá 2 microservicios con los que se podrá gestionar productos y pedidos. Se podrá añadir, consultar, modificar y eliminar tanto los productos como los pedidos.
 
-Se podrá añadir, consultar, modificar y eliminar tanto los productos como los pedidos.
+### Microservicio de Gestión de pedidos  
 
-### Arquitectura
+Cada pedido contendrá:  
+
+- Código de pedido.
+- Nombre del destinatario.
+- Dirección de envío.
+- Lista de #Producto y unidades solicitadas.
+- Estado del pedido (No procesado, Procesado, Entregando, Entregado)
+
+### Microservicio de Gestión de productos
+
+Cada producto contendrá:  
+
+- Código de producto.
+- Nombre.
+- Descripción.
+- Stock.
+- Categorías.
+
+## Arquitectura
 
 ![Diagrama arquitectura](doc/img/diagrama-arquitectura.png)  
 
