@@ -32,7 +32,7 @@ Cada producto contendrá:
 
 Se utilizará una arquitectura basada en microservicios en el que existirá un microservicio para gestionar los productos y otro microservicio para gestionar los pedidos.  
 
-Los usuarios mandarán las peticiones a una **API Gateway** que será la encargada de ser el punto de entrada de las peticiones y redireccionarlas al microservicio correspondiente. Esta API Gateway será configurada con ![Nginx Plus](https://www.nginx.com/solutions/api-management-gateway/), ya que la API será fácil de configurar, escalar y será segura y rápida.
+Los usuarios mandarán las peticiones a una **API Gateway** que será la encargada de ser el punto de entrada de las peticiones y redireccionarlas al microservicio correspondiente. Esta API Gateway será configurada con [Nginx Plus](https://www.nginx.com/solutions/api-management-gateway/), ya que la API será fácil de configurar, escalar y será segura y rápida.
 
 El **Microservicio 1** se encargará de gestionar los pedidos, de forma que se pueda crear un nuevo pedido, consultar los pedidos, borrarlos o modificarlos. Este microservicio será implementado en **Python** y como framework utilizaré **Flask** por la sencillez de implementación. Para almacenar la información usaré **PostgreSQL**, que es una base de datos relacional y open-source.  
 
