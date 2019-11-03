@@ -19,3 +19,13 @@ Son los productos que podrán solicitar los usuarios. Contendrán nombre, descri
 
 Son los pedidos que realizarán  los usuarios. Contendrán nombre de distanatario, dirección de envío,
  código del pedido y el estado en el que se encuentra (No procesado, Procesado, Enviando o Enviado).
+
+### Historias de usuario asociadas a los Pedidos
+
+[Issue 21: Realizar un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/21)  
+[Issue 22: Modificar un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/22)  
+[Issue 23: Eliminar un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/23)  
+[Issue 24: Consultar un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/24)  
+[Issue 25: Consultar todos los pedidos](https://github.com/toniMR/CC-GestionPedidos/issues/25)  
+[Issue 26: Consultar los pedidos con un estado determinado](https://github.com/toniMR/CC-GestionPedidos/issues/26)  
+[Issue 27: Modificar el estado de un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/27)  
