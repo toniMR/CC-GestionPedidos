@@ -4,7 +4,9 @@
 
 ## Descripción
 
-El proyecto contendrá 2 microservicios con los que se podrá gestionar productos y pedidos. Se podrá añadir, consultar, modificar y eliminar tanto los productos como los pedidos.
+El proyecto consistirá en un gestor de productos y pedidos en el que el usuario podrá ver todos los productos que hay y realizar un pedido con la lista de productos y cantidades que desea.  
+
+Consistirá en 2 microservicios con los que se podrá añadir, consultar, modificar y eliminar tanto los productos como los pedidos.
 
 ### Microservicio de Gestión de pedidos  
 
