@@ -1,6 +1,6 @@
 # Entidades
 
-En el proyecto se va a trabar con 2 entidades principales: Productos y Pedidos.
+En el proyecto se va a trabajar con 2 entidades principales: Productos y Pedidos.
 
 ## Productos
 
