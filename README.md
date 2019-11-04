@@ -14,6 +14,8 @@ Consistirá en 2 microservicios con los que se podrá añadir, consultar, modifi
 
 ## Entidades e historias de uso
 
+En el proyecto se va a trabar con 2 entidades principales: Productos y Pedidos.
+
 ### Productos
 
 Son los productos que podrán solicitar los usuarios. Cada producto contendrá:
