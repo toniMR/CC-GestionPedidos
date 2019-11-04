@@ -4,8 +4,14 @@ En el proyecto se va a trabar con 2 entidades principales: Productos y Pedidos.
 
 ## Productos
 
-Son los productos que podrán solicitar los usuarios. Contendrán nombre, descripción, precio,
- un código de producto y las categorías a las que pertenece.
+Son los productos que podrán solicitar los usuarios. Cada producto contendrá:
+
+- Código de producto.
+- Nombre.
+- Descripción.
+- Precio.
+- Stock.
+- Categorías.
 
 ### Historias de usuario asociadas a los Productos
 
@@ -17,8 +23,13 @@ Son los productos que podrán solicitar los usuarios. Contendrán nombre, descri
 
 ## Pedidos
 
-Son los pedidos que realizarán  los usuarios. Contendrán nombre de distanatario, dirección de envío,
- código del pedido y el estado en el que se encuentra (No procesado, Procesado, Enviando o Enviado).
+Son los pedidos que realizarán  los usuarios. Cada pedido contendrá:
+
+- Código de pedido.
+- Nombre del destinatario.
+- Dirección de envío.
+- Lista de #Producto y unidades solicitadas.
+- Estado del pedido (No procesado, Procesado, Entregando, Entregado)
 
 ### Historias de usuario asociadas a los Pedidos
 
