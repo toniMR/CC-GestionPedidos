@@ -10,7 +10,7 @@ Consistirá en 2 microservicios con los que se podrá añadir, consultar, modifi
 
 ## Arquitectura
 
-![Diagrama arquitectura](img/diagrama-arquitectura.png)  
+![Diagrama arquitectura](doc/img/diagrama-arquitectura.png)  
 
 Se utilizará una arquitectura basada en microservicios en el que existirá un microservicio para gestionar los productos y otro microservicio para gestionar los pedidos.  
 
