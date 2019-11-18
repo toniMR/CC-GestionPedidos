@@ -1,0 +1,24 @@
+# Lenguaje de programación
+language: node_js
+
+# Seleccionar versiones a testear
+node_js:
+  - "v8.16.2"
+  - "v10.17.0"
+  - "v12.13.0"
+  - "v13.0.1"
+
+# Instalar dependencias
+install:
+  - npm ci
+  
+# Mantener el caché npm para acelerar las instalaciones
+cache:
+  directories:
+    - "$HOME/.npm"
+
+# Ejecutar tests
+# Se llamará a la orden escrita en el apartado test
+# del archivo package.json.
+script:
+  - npm test
