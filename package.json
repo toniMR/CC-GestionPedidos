@@ -1,0 +1,20 @@
+{
+  "name": "cc-productos",
+  "version": "1.0.0",
+  "description": "Desarrollo del microservicio de productos para la asignatura CC",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.5"
+  },
+  "devDependencies": {
+    "codecov": "^3.6.1",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1"
+  },
+  "scripts": {
+    "test": "nyc mocha ./tests/productos/* && codecov"
+  },
+  "author": "AMR",
+  "license": "ISC"
+}
