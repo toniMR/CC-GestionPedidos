@@ -13,7 +13,7 @@
     "nyc": "^14.1.1"
   },
   "scripts": {
-    "test": "nyc --reporter=lcov mocha ./tests/productos/* && codecov"
+    "test": "nyc --reporter=lcov mocha --recursive && codecov"
   },
   "author": "AMR",
   "license": "ISC"
