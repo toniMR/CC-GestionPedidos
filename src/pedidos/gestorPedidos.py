@@ -26,7 +26,7 @@ class GestorPedidos:
                 pedido = p
         return pedido
 
-
+    '''
     # Añadir un pedido nuevo
     # (Posteriormente el identificador no lo tendrá que indicar el usuario)
     #
@@ -61,3 +61,4 @@ class GestorPedidos:
                     json.dump(self.pedidos, f, indent=4, sort_keys=True)
                     f.close()
         return borrado
+    '''
