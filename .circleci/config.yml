@@ -1,0 +1,43 @@
+version: 2
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-latest
+      - test-3.7
+      - test-3.6
+jobs:
+  test-latest: &test-template
+  # Indicar la imagen docker a utilizar
+    docker:
+      - image: circleci/python:latest
+    steps:
+      - checkout
+      - run:
+          # Instalar dependencias del proyecto en un entorno virtual
+          name: Install Python deps in a venv
+          command: |
+            virtualenv venv
+            . venv/bin/activate 
+            pip3 install .
+      - run:
+          # Ejecutar tests y subir reportes de cobertura a codecov
+          name: Runnning tests
+          command: |
+            . venv/bin/activate
+            # Instalar adicionalmente codecov, solo se subirán los reportes a codecov
+            # desde aquí.
+            pip3 install codecov 
+            # Ejecutar tests y generar reportes de cobertura
+            python3 setup.py test
+            # Subir reportes de cobertura a codecov
+            codecov
+  test-3.7:
+    <<: *test-template
+    docker:
+      - image: circleci/python:3.7
+
+  test-3.6:
+    <<: *test-template
+    docker:
+      - image: circleci/python:3.6
