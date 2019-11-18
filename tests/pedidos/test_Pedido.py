@@ -53,7 +53,7 @@ class TestPedido(unittest.TestCase):
         self.assertEqual(pedido.getDireccion(), "c/ modificada" , "Estado cambiado correctamente")
 
     # Comprobar que se forma el JSON correctamente
-    def test_modificarDireccion(self):
+    def test_toJSON(self):
         pedido = Pedido ("222333444", "Antonio Martos", "c/ ejemplo2", [{"MI120": 1},{"LAM1": 2}])
         dict_pedido = {"_id": "222333444", "destinatario": "Antonio Martos", "direccion": "c/ ejemplo2", "estado": "No procesado", "productos": [{"MI120": 1}, {"LAM1": 2}]}
         self.assertEqual(pedido.toJSON(), json.dumps(dict_pedido) , "Estado cambiado correctamente")
