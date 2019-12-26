@@ -39,4 +39,28 @@ describe('Test API', function(){
 
         });
     });
+
+    // Testear la obtención del producto insertado
+    describe('Test obtener un producto', function(){
+        
+        it('Debe obtener el producto correctamente', function(done){
+
+            supertest(app.app)
+                .get('/productos/LAM2')
+                .expect(200)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body._id).to.eql("LAM2");
+                        chai.expect(res.body.nombre).to.eql("Lampara AM 2");
+                        chai.expect(res.body.descripcion).to.eql("Lampara amarilla de 2 bombillas");
+                        chai.expect(res.body.categorias).to.eql(["muebles", "iluminacion", "hogar"]);
+                        chai.expect(res.body.precio).to.eql(27);
+                        chai.expect(res.body.stock).to.eql(30);
+                        done();
+                    }
+                })
+
+        });
+    });
 });
