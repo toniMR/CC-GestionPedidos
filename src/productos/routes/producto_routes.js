@@ -23,11 +23,11 @@ router.get('/status', async function(req, res){
 
 // Rutas para el producto
 
-// GET un producto concreto (por su id)
-router.get('/productos/:id', producto_controller.product_data);
-
 // GET todos los productos
 router.get('/productos', producto_controller.products_data);
+
+// GET un producto concreto (por su id)
+router.get('/productos/:id', producto_controller.product_data);
 
 // GET productos que contengan una palabra clave en su nombre o descripción
 router.get('productos/:palabra', producto_controller.product_data_word);

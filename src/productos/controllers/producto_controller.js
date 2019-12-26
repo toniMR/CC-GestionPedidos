@@ -1,15 +1,23 @@
 
 var Producto = require('../models/producto_model');
 
-exports.product_data = function(req, res) {
-    res.send('NOT IMPLEMENTED: Product data');
-};
-
 // Obtener todos los productos
 exports.productsData = async function(req, res){
     const products = await Producto.find()
 
     res.status(200).send(products)
+};
+
+// Obtener el producto identificado por su _id
+exports.productData = async function(req, res) {
+    
+    const product = await Producto.findById(req.params._id)
+
+    if (product)
+        return res.status(200).send(product);
+    else{
+        return res.status(404).send('No existe un producto con ese id');
+    }
 };
 
 exports.product_data_word = function(req, res) {
