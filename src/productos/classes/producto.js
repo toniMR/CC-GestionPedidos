@@ -4,8 +4,8 @@
 */
 
 class Producto{
-    constructor(id, nombre, descripcion, categorias, precio, stock){
-        this.id = id;
+    constructor(_id, nombre, descripcion, categorias, precio, stock){
+        this._id = _id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categorias = categorias;
@@ -58,7 +58,7 @@ class Producto{
         this.categorias.forEach(function(value){
             categoriasString += value + ", ";
         });
-        var str = "ID: " + this.id + "\n" +
+        var str = "ID: " + this._id + "\n" +
         "Nombre: " + this.nombre + "\n" +
         "Descripción: " + this.descripcion + "\n" +
         "Categorías: " +  categoriasString+ "\n" +
@@ -66,6 +66,19 @@ class Producto{
         "Stock: " + this.stock + "\n";
 
         return str;
+    }
+
+    toJSON(){
+        var str_product = {
+            _id: this._id,
+            nombre: this.nombre,
+            descripcion: this.descripcion,
+            categorias: this.categorias,
+            precio: this.precio,
+            stock: this.stock
+        }
+
+        return JSON.stringify(str_product);
     }
 }
 

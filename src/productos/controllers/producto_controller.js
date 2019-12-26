@@ -1,5 +1,6 @@
 
-var Producto = require('../models/producto_model');
+const Producto = require('../models/producto_model')
+
 
 // Obtener todos los productos
 exports.productsData = async function(req, res){
@@ -7,6 +8,7 @@ exports.productsData = async function(req, res){
 
     res.status(200).send(products)
 };
+
 
 // Obtener el producto identificado por su _id
 exports.productData = async function(req, res) {
@@ -20,9 +22,12 @@ exports.productData = async function(req, res) {
     }
 };
 
-exports.product_data_word = function(req, res) {
+
+// Buscar producto que contenga una palabra en nombre o descripción
+exports.productDataWord = function(req, res) {
     res.send('NOT IMPLEMENTED: Product with a word');
 };
+
 
 // Insertar producto
 exports.insertProduct = async function(req, res){
@@ -53,7 +58,6 @@ exports.insertProduct = async function(req, res){
     }
 };
 
-
 // Editar producto
 exports.editProduct = async function(req, res){
     const product = await Producto.findById(req.params._id);
@@ -75,6 +79,7 @@ exports.editProduct = async function(req, res){
         return res.status(404).send('No existe un producto con ese id');
     }
 }
+
 
 // Eliminar producto identificado por su _id
 exports.deleteProduct = async function(req, res){
