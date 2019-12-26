@@ -40,6 +40,7 @@ describe('Test API', function(){
         });
     });
 
+
     // Testear la obtención del producto insertado
     describe('Test obtener un producto', function(){
         
@@ -57,6 +58,30 @@ describe('Test API', function(){
                         chai.expect(res.body.categorias).to.eql(["muebles", "iluminacion", "hogar"]);
                         chai.expect(res.body.precio).to.eql(27);
                         chai.expect(res.body.stock).to.eql(30);
+                        done();
+                    }
+                })
+
+        });
+    });
+
+
+    // Testear la modificación de un producto
+    describe('Test modificar un producto', function(){
+        
+        it('Debe modificar el producto correctamente', function(done){
+
+            var producto = new Producto("LAM2", "Lampara AM 2", "Lampara amarilla de 2 bombillas", ["muebles", "iluminacion", "hogar"], 27, 30);
+            producto.setNombre("Lámpara");
+
+            supertest(app.app)
+                .put('/productos/LAM2')
+                .send(producto)
+                .expect(200)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body.nModified).to.eql(1);
                         done();
                     }
                 })
