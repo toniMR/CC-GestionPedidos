@@ -88,4 +88,24 @@ describe('Test API', function(){
 
         });
     });
+
+
+    // Testear la eliminación de un producto
+    describe('Test eliminar un producto', function(){
+        
+        it('Debe eliminar el producto correctamente', function(done){
+
+            supertest(app.app)
+                .delete('/productos/LAM2')
+                .expect(200)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.text).to.eql("Producto borrado");
+                        done();
+                    }
+                })
+
+        });
+    });
 });
