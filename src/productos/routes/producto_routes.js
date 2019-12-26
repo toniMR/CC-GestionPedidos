@@ -10,6 +10,17 @@ var router = express.Router();
 var producto_controller = require ('../controllers/producto_controller.js');
 
 
+// ruta /
+router.get('/', async function(req, res){
+    return res.status(200).send({status: "OK"});
+});
+
+// ruta /status
+router.get('/status', async function(req, res){
+    return res.status(200).send({status: "OK"});
+});
+
+
 // Rutas para el producto
 
 // GET un producto concreto (por su id)
