@@ -40,7 +40,7 @@ router.get('productos/:palabra', producto_controller.product_data_word);
 
 
 // POST producto
-//router.post('/producto',       );
+router.post('/productos', producto_controller.insertProduct);
 
 
 // PUT producto
