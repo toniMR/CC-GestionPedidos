@@ -1,0 +1,6 @@
+# Indicar que se utilizará el Dockerfile
+build:
+    docker:
+      web: Dockerfile
+
+# Se ejecutará la orden CMD indicada en el Dockerfile
