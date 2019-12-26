@@ -5,8 +5,11 @@ exports.product_data = function(req, res) {
     res.send('NOT IMPLEMENTED: Product data');
 };
 
-exports.products_data = function(req, res) {
-    res.send('NOT IMPLEMENTED: All products data');
+// Obtener todos los productos
+exports.productsData = async function(req, res){
+    const products = await Producto.find()
+
+    res.status(200).send(products)
 };
 
 exports.product_data_word = function(req, res) {
