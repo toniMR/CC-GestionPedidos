@@ -6,7 +6,8 @@
   "dependencies": {
     "async": "^3.1.0",
     "express": "^4.17.1",
-    "mongoose": "^5.8.0"
+    "mongoose": "^5.8.0",
+    "pm2": "^4.2.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -16,7 +17,10 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "nyc --reporter=lcov mocha --recursive && codecov"
+    "test": "nyc --reporter=lcov mocha --recursive && codecov",
+    "start": "pm2-runtime start app.js --name \"gestor-productos\" -i max",
+    "stop": "pm2-runtime stop gestor-productos",
+    "restart": "pm2-runtime reload gestor-productos"
   },
   "author": "AMR",
   "license": "ISC"
