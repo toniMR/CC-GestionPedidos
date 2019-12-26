@@ -42,9 +42,8 @@ router.get('productos/:palabra', producto_controller.product_data_word);
 // POST producto
 router.post('/productos', producto_controller.insertProduct);
 
-
 // PUT producto
-//router.put('/producto/:id',       );
+router.put('/productos/:_id', producto_controller.editProduct);
 
 // DELETE producto
 //router.delete('/producto/:id',        );

@@ -41,3 +41,26 @@ exports.insertProduct = async function(req, res){
         return res.status(201).send(result);
     }
 };
+
+
+// Editar producto
+exports.editProduct = async function(req, res){
+    const product = await Producto.findById(req.params._id);
+
+    // Si existe el producto, se actualiza
+    if(product){
+        const result = await product.updateOne({
+                                                "_id": req.body._id,
+                                                "nombre": req.body.nombre,
+                                                "descripcion": req.body.descripcion,
+                                                "categorias": req.body.categorias,
+                                                "precio": req.body.precio,
+                                                "stock": req.body.stock
+                                            });
+        return res.status(200).send(result);
+    }
+    // No existe un producto con ese id
+    else{
+        return res.status(404).send('No existe un producto con ese id');
+    }
+}
