@@ -64,3 +64,15 @@ exports.editProduct = async function(req, res){
         return res.status(404).send('No existe un producto con ese id');
     }
 }
+
+// Eliminar producto identificado por su _id
+exports.deleteProduct = async function(req, res){
+    const product = await Producto.findByIdAndDelete(req.params._id)
+
+    // Si existe el producto se elimina
+    if (product)
+        return res.status(200).send('Producto borrado')
+    else{
+        return res.status(404).send('No existe un producto con ese id');
+    }
+};

@@ -46,7 +46,7 @@ router.post('/productos', producto_controller.insertProduct);
 router.put('/productos/:_id', producto_controller.editProduct);
 
 // DELETE producto
-//router.delete('/producto/:id',        );
+router.delete('/productos/:_id',producto_controller.deleteProduct);
 
 
 module.exports = router;
