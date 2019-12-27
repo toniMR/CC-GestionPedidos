@@ -52,6 +52,8 @@ USER nonrootuser
 CMD npm start
 ```
 
+Puede consultar la [prueba de eleccion de la imagen base](eleccionImagenDocker.md) para ver las pruebas realizadas para escoger la imagen base.
+
 Se puede observar el uso de las siguientes reglas:
 
 - **FROM:** Indica cual será la imagen base sobre la que se construirá el dockerfile.
