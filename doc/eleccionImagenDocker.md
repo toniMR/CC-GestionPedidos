@@ -7,6 +7,7 @@ Para elegir que base utilizaré para mi Dockerfile he realizado un pequeño test
 - [Dockerfiles utilizados](#dockerfiles-utilizados)
 - [Tests realizados](#tests-realizados)
 - [Resultado](#resultado)
+- [Referencias](#referencias)
 
 ## Dockerfiles utilizados
 
@@ -198,3 +199,8 @@ Como se puede observar en las imágenes anteriores para 8 usuarios concurrentes,
 Cada vez que se ejecuta los tests varían esos resultados, pero siempre obtienen unos resultados parecidos entre CentOS y Alpine.
 
 Por lo que al tener un rendimiento muy parecido y ser Alpine una imagen más liviana usaré esa.
+
+## Referencias
+
+- [Apache Benchmark](https://httpd.apache.org/docs/2.4/programs/ab.html)
+- [Ab + GNUPlot](https://blog.desdelinux.net/apache-benchmark-gnuplot-medir-rendimiento-de-servidor-web/)
