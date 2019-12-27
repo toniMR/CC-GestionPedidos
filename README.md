@@ -27,6 +27,14 @@ La arquitectura se encuentra explicada extensamente en la [Documentación sobre 
 
 ## Herramientas de construcción
 
+Microservicio gestor de productos:
+
+buildtool: package.json
+
+Microservicio gestor de pedidos:
+
+buildtool: setup.py
+
 [Documentación sobre las herramientas de construción](doc/herramientasConstruccion.md)
 
 ## Gestor de procesos
