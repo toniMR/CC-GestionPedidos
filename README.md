@@ -37,7 +37,8 @@ Para gestionar multiples instancias del microservicio Gestor de Productos utiliz
 
 ## Docker
 
-El contenedor Docker se ha creado utilizando como base una imagen Alpine.
+El Dockerfile se ha creado utilizando como base una imagen Alpine, de esta
+forma la imagen será más liviana.
 
 Contenedor: https://hub.docker.com/r/tonimr/cc-gestion-productos
 
