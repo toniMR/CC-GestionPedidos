@@ -1,7 +1,7 @@
 
 # Despliegue en Heroku
 
-Para desplegar el microservicio a Heroku, tras inciar se sión en Heroku debemos crear una aplicación:  
+Para desplegar el microservicio en Heroku, tras iniciar sesión en Heroku debemos crear una aplicación:  
 
 ![crear-aplicacion-heroku](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/heroku/create_app.png)
 
@@ -27,3 +27,9 @@ build:
 ```
 
 De esta forma se le indicará a Heroku que lo que tiene que desplegar es un Dockerfile.  
+
+## Referencias
+
+[Documentación Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+
+[Documentación Heroku 2](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml)
