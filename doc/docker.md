@@ -87,12 +87,6 @@ Desde el directorio en el que se encuentra el dockerfile hacer:
 docker build -t node-productos .
 ```
 
-Para ejecutar la imagen con el puerto por defecto:
-
-```bash
-docker run -t -e DB_URL=<uri_a_bd> <ImageID>
-```
-
 ### Construir la imagen con docker hub
 
 ```bash
@@ -131,5 +125,6 @@ La DB_URI debería ser, por ejemplo: "mongodb://localhost:27017/productos"
 
 ## Referencias
 
-[Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+[Dockerfile reference](https://docs.docker.com/engine/reference/builder/)  
+
 [Host networking](https://docs.docker.com/network/host/)
