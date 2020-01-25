@@ -93,4 +93,20 @@ def getPedido(id_pedido):
         except ValueError as error:
             response = {"status": 400, "mensage": str(error)}
 
+    # Modificar un pedido
+    if request.method == 'PUT':
+        try:
+            existe = gestorPedidos.getPedido(id_pedido)
+            if existe:
+                pedido_json = request.get_json()
+                gestorPedidos.modificarPedido(id_pedido, pedido_json)
+                response = {"mensaje": "Pedido modificado con éxito"}
+                return response, 201
+            else:
+                response = {"mensage": "No existe un pedido con id: " + id_pedido}
+                return response, 404
+        except ValueError as error:
+            response = {"mensage": str(error)}
+            return response, 400
+
     return response

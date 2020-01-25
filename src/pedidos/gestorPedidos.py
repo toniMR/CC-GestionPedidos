@@ -35,3 +35,16 @@ class GestorPedidos:
                 self.data_manager.insertarPedido(nuevo_pedido)
         else:
             raise ValueError ("Error: El json enviado está mal formado")
+
+    # Modificar un pedido
+    def modificarPedido(self, id_pedido, p_json):
+        if self.pedido_schema.is_valid(p_json):
+            nuevos_datos_pedido = Pedido(p_json["id"], p_json["destinatario"], p_json["direccion"], p_json["productos"])
+            if nuevos_datos_pedido.getID() == id_pedido:
+                # El id en la ruta y en el json enviado coinciden
+                self.data_manager.modificarPedido(id_pedido, nuevos_datos_pedido)
+            else:
+                # El id del pedido en la ruta y en el json enviado no coinciden
+                raise ValueError ("Error: El id en la ruta no coincide con el json enviado. El id no se puede modificar")
+        else:
+            raise ValueError ("Error: El json enviado está mal formado")
