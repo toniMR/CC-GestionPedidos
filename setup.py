@@ -3,6 +3,7 @@
 
 from setuptools import setup
 from distutils.command.clean import clean
+from distutils.cmd import Command
 import subprocess
 
 class Cleaner(clean):
@@ -15,13 +16,39 @@ class Cleaner(clean):
         subprocess.run(["rm", "-rf", ".pytest_cache"])
         subprocess.run(["rm", "-rf", "CC_GestionPedidos.egg-info"])
 
+# Ejecutar pedidos-rest con gunicorn
+class Start(Command):
+    description = 'Ejecutar pedidos-rest con gunicorn'
+    user_options = [
+        # The format is (long option, short option, description).
+        ('workers=', 'w', 'numero de workers'),
+        ('host=', None, 'host'),
+        ('port=', 'p', 'port'),
+    ]
+
+    # Inicializar opcciones
+    def initialize_options(self):
+        self.workers = "1"
+        self.host = "127.0.0.1"
+        self.port = "8000"
+
+    # Asignar opcciones
+    def finalize_options(self):
+        if self.workers:
+            assert self.workers.isdigit(), ('workers debe ser un número')
+        if self.port:
+            assert self.workers.isdigit(), ('port debe ser un número')
+
+    def run(self):
+        subprocess.run(["gunicorn", "-w", self.workers, "-b", self.host+":"+self.port, "pedidos-rest:app"])
+
 setup(
     
     # Nombre del proyecto
     name='CC-GestionPedidos', # Required
 
     # Versión del proyecto
-    version='2.1',            # Required
+    version='4.0,            # Required
 
     # Página de inicio del proyecto
     url='https://github.com/toniMR/CC-GestionPedidos',   # Required
@@ -45,14 +72,21 @@ setup(
     # Limpiar proyecto
     # Se limpia ejecutando con: 
     #                ---->    python3 setup.py clean
-    cmdclass={'clean': Cleaner},
+    cmdclass={
+                'clean': Cleaner,
+                'start': Start
+            },
 
+    # Ejecutar
 
     # Instalar dependencias
     # Se instalan ejecutando:
     #                ---->    pip3 install .
     install_requires=[
         'Flask',
+        'psycopg2',
+        'schema',
+        'gunicorn'
     ],    
  )
 
