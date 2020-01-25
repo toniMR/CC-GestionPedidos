@@ -16,7 +16,7 @@ from gestorPedidos import GestorPedidos
 gestorPedidos = GestorPedidos("data/pedidos/test_pedidos.json")
 
 class TestGestorPedidos(unittest.TestCase):
-
+    '''
     # Comprobar que se inicializa correctamente
     def test_incializacion(self):
         self.assertIsInstance(gestorPedidos, GestorPedidos, "Se ha inicializado correctamente")
@@ -34,7 +34,6 @@ class TestGestorPedidos(unittest.TestCase):
         pedidoJSON = json.loads(pedido.toJSON())
         self.assertEqual(gestorPedidos.getPedido("123123123"), pedidoJSON, "Pedido identificado devuelto correctamente")
 
-    '''
     # Comprobar que inserta 
     def test_insertarPedido(self):
         nuevo_pedido = Pedido("333444555", "Test", "c/ testing, Nº4", [{"ITEM1": 3, "ITEM2": 2}])
