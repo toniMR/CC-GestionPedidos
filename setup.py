@@ -48,7 +48,7 @@ setup(
     name='CC-GestionPedidos', # Required
 
     # Versión del proyecto
-    version='4.0,            # Required
+    version='4.0',            # Required
 
     # Página de inicio del proyecto
     url='https://github.com/toniMR/CC-GestionPedidos',   # Required
@@ -69,11 +69,12 @@ setup(
         'pytest-cov'
     ],
 
-    # Limpiar proyecto
-    # Se limpia ejecutando con: 
-    #                ---->    python3 setup.py clean
+    
+    # Tareas personalizadas                
     cmdclass={
+                # Limpiar proyecto   ---->    python3 setup.py clean
                 'clean': Cleaner,
+                # Iniciar aplicación ---->    python3 setup.py start (-w num_workers --host="ip_host" -p port_host)
                 'start': Start
             },
 
