@@ -66,3 +66,13 @@ Las rutas implementadas por ahora son:
 - **/productos/_id** (GET, PUT, DELETE)
 
 [Documentación despliegue en Heroku](doc/despliegueHeroku.md)
+
+## Inversión de dependecias
+
+[Documentación inversión de dependencias](doc/inversionDependencias.md)
+
+## Test de rendimiento
+
+Prestaciones: performance_request.yml
+
+[Documentación test de rendimiento](doc/rendimientoTaurus.md)
