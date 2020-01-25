@@ -101,7 +101,7 @@ describe('Test API', function(){
                 .end(function(err, res){
                     if(err){done(err)}
                     else{
-                        chai.expect(res.text).to.eql("Producto borrado");
+                        chai.expect(res.body.mensaje).to.eql("Producto borrado");
                         done();
                     }
                 })
