@@ -12,6 +12,10 @@ class GestorPedidos:
         self.data_manager = data_manager
         self.pedido_schema = PedidoSchema()
 
+    # Devolver todos los pedidos
+    def getPedidos(self):
+        return self.data_manager.getPedidos()
+
     # Devolver el pedido con el identificador "_id"
     def getPedido(self, id_pedido):
         return self.data_manager.getPedido(id_pedido)

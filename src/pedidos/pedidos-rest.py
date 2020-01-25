@@ -43,6 +43,24 @@ gestorPedidos = GestorPedidos(data_manager)
 def getPedidos():
     response = ""
 
+    # Devuelve los pedidos existentes
+    if request.method == 'GET':
+        try:
+            pedidos = gestorPedidos.getPedidos()
+            pedidos_json = []
+            if len(pedidos) > 0:
+                for p in pedidos:
+                    pedidos_json.append(json.loads(p.toJSON()))
+
+                response = {"pedidos": pedidos_json}
+                return response, 200
+            else:
+                response = {"mensaje": "No existen pedidos"}
+                return response, 200
+        except ValueError as error:
+            response = {"mensage": str(error)}
+            return response, 400
+
     # Insertar un pedido nuevo
     elif request.method == 'POST':
         try:
