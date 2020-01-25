@@ -29,16 +29,6 @@ router.get('/productos', producto_controller.productsData);
 // GET un producto concreto (por su id)
 router.get('/productos/:_id', producto_controller.productData);
 
-// GET productos que contengan una palabra clave en su nombre o descripción
-router.get('productos/:palabra', producto_controller.productDataWord);
-
-// GET productos en un rango de precio
-//router.get('/productos/min/:min/max/:max',      );
-
-// GET productos que pertenezcan a una categoría
-//router.get('/productos/categoria/:categoria',      );
-
-
 // POST producto
 router.post('/productos', producto_controller.insertProduct);
 
@@ -47,7 +37,6 @@ router.put('/productos/:_id', producto_controller.editProduct);
 
 // DELETE producto
 router.delete('/productos/:_id',producto_controller.deleteProduct);
-
 
 
 module.exports = router;
