@@ -1,6 +1,6 @@
 
 const Producto = require('../../src/productos/classes/producto');
-const app = require('../../app');
+const app = require('../../src/productos/productos-rest');
 const supertest = require('supertest');
 const mongoose = require('mongoose')
 const chai = require('chai');
