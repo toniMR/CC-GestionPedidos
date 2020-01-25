@@ -48,3 +48,7 @@ class GestorPedidos:
                 raise ValueError ("Error: El id en la ruta no coincide con el json enviado. El id no se puede modificar")
         else:
             raise ValueError ("Error: El json enviado está mal formado")
+
+    # Borrar el pedido con el identificador "id"
+    def borrarPedido(self, id_pedido):
+        self.data_manager.eliminarPedido(id_pedido)

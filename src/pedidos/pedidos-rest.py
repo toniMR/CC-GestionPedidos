@@ -109,4 +109,19 @@ def getPedido(id_pedido):
             response = {"mensage": str(error)}
             return response, 400
 
+    # Borrar un pedido
+    elif request.method == 'DELETE':
+        try:
+            pedido = gestorPedidos.getPedido(id_pedido)
+            if(pedido):
+                gestorPedidos.borrarPedido(id_pedido)
+                response = {"mensaje": "El pedido con id: " + id_pedido + " se ha borrado exitosamente."}
+                return response, 200
+            else:
+                response = {"mensaje": "No existe el pedido con id: " + id_pedido}
+                return response, 404
+        except ValueError as error:
+            response = {"mensage": str(error)}
+            return response, 400
+
     return response
