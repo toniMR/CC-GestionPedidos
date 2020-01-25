@@ -55,3 +55,24 @@ def getPedidos():
             return response, 400
 
     return response
+
+
+# Devuelve un pedido identificado por su id
+@app.route('/pedidos/<id_pedido>', methods = ['GET', 'PUT', 'DELETE'])
+def getPedido(id_pedido):
+    response = ""
+
+    # Obtener un pedido
+    if request.method == 'GET':
+        try:
+            pedido = gestorPedidos.getPedido(id_pedido)
+            if(pedido):
+                response = {"pedido": json.loads(data_manager.getPedido(id_pedido).toJSON())}
+                return response, 200
+            else:
+                response = {"mensaje": "No existe el pedido con id: " + id_pedido}
+                return response, 404
+        except ValueError as error:
+            response = {"status": 400, "mensage": str(error)}
+
+    return response

@@ -12,6 +12,10 @@ class GestorPedidos:
         self.data_manager = data_manager
         self.pedido_schema = PedidoSchema()
 
+    # Devolver el pedido con el identificador "_id"
+    def getPedido(self, id_pedido):
+        return self.data_manager.getPedido(id_pedido)
+
     # Añadir un pedido nuevo
     def insertarPedido(self, p_json):
         if self.pedido_schema.is_valid(p_json):
