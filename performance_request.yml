@@ -1,0 +1,98 @@
+
+# Medir prestaciones de los microservicios con Taurus:
+    execution:
+        - concurrency: 8   # 8 usuarios simultáneos
+          ramp-up: 8s    # En 10s se alcanzan los 10 usuarios
+          hold-for: 30s   # Cada usuario mantiene la conexión durante 50s
+          scenario: pedidos-rest-performance  # Nombre del test (escenario) a ejecutar
+    
+    # Definir escenario
+    scenarios:
+        pedidos-rest-performance:
+
+            # Deshabilitar cache
+            store-cache: false
+            # Definir peticiones
+            requests:
+            
+            - url: http://localhost:8000/pedidos
+              method: POST
+              # Seleccionar headers de las peticiones
+              headers:
+                Content-type: application/json
+              # Establecer en la petición el pedido a insertar
+              body:  {
+                        "id": "TAURUS",
+                        "destinatario": "Name",
+                        "direccion": "c/ejemplo Spain",
+                        "productos": [
+                            {
+                                "id": "MI180",
+                                "unidades": 1
+                            },
+                            {
+                                "id": "LAM3",
+                                "unidades": 2
+                            }
+                        ]
+                      }
+            - url: http://localhost:8000/pedidos/TAURUS
+              method: PUT 
+              # Seleccionar headers de las peticiones
+              headers:
+                Content-type: application/json
+                body:  {
+                        "id": "TAURUS",
+                        "destinatario": "Name",
+                        "direccion": "c/ejemplo, N2, Spain",
+                        "productos": [
+                            {
+                                "id": "MI180",
+                                "unidades": 1
+                            },
+                            {
+                                "id": "LAM2",
+                                "unidades": 3
+                            }
+                        ]
+                      }
+            - url: http://localhost:8000/pedidos/TAURUS
+              method: DELETE
+
+        productos-rest-performance:
+
+          # Deshabilitar cache
+          store-cache: false
+          # Definir peticiones
+          requests:
+          
+          - url: http://localhost:8080/productos
+            method: POST
+            # Seleccionar headers de las peticiones
+            headers:
+              Content-type: application/json
+            # Establecer en la petición el pedido a insertar
+            body:  {
+                      "_id": "PR902205",
+                      "nombre": "Puerta roble",
+                      "descripcion": "Puerta hecha de roble de 90cm de largo, 220cm de alto y 5 de ancho",
+                      "categorias": ["puertas", "salón", "habitación"],
+                      "precio": 94,
+                      "stock": 25                      
+                    }
+          - url: http://localhost:8080/productos/PR902205
+            method: PUT 
+            # Seleccionar headers de las peticiones
+            headers:
+              Content-type: application/json
+              body:  {
+                      "_id": "PR902205",
+                      "nombre": "Puerta roble",
+                      "descripcion": "Puerta hecha de roble de 90cm de largo, 220cm de alto y 5 de ancho",
+                      "categorias": ["puertas", "salón", "habitación"],
+                      "precio": 72,
+                      "stock": 13                      
+                    }
+          - url: http://localhost:8080/productos/PR902205
+            method: DELETE
+
