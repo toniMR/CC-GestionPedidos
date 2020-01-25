@@ -18,7 +18,7 @@
   },
   "scripts": {
     "test": "nyc --reporter=lcov mocha --recursive && codecov",
-    "start": "pm2-runtime start app.js --name \"gestor-productos\" -i max",
+    "start": "pm2-runtime start ./src/productos/productos-rest.js --name \"gestor-productos\" -i max",
     "stop": "pm2-runtime stop gestor-productos",
     "restart": "pm2-runtime reload gestor-productos"
   },
