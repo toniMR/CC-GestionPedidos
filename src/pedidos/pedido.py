@@ -51,8 +51,7 @@ class Pedido:
     def toString(self):
         productos_str = ""
         for p in self.productos:
-            for k in p:
-                productos_str = productos_str + k + ": " + str(p[k]) + " unidades, "
+            productos_str = productos_str + "id: " + p["id"] + " unidades: " + str(p["unidades"]) + ", "
 
         msg = "ID: " + self.id + "\nDestinatario: " + self.destinatario + "\nDirección: " + self.direccion + "\nEstado: " + self.estado + "\nProductos: " + productos_str
         return msg
