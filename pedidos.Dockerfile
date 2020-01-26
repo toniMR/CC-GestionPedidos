@@ -58,4 +58,5 @@ CMD /etc/init.d/postgresql start \
     && createdb -O ${DB_USERNAME} ${DB_NAME} \
     # No puedo utilizar python3 setup.py start porque me da error
     # python3 setup.py start -w 8 --host=${GUNI_HOST} -p {GUNI_PORT}
+    && cd src/pedidos \
     && gunicorn -w 8 -b ${GUNI_HOST}:${GUNI_PORT} pedidos-rest:app
