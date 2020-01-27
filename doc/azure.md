@@ -91,6 +91,6 @@ en el mismo grupo. Así será mas fácil de administrar.
 
 ## Referencias
 
-[Instalar CLI Azure](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest)
-[Ver Imagenes](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/cli-ps-findimage)
-[Tipos de máquinas](https://docs.microsoft.com/es-es/azure/azure-resource-manager/templates/error-sku-not-available)
+[Instalar CLI Azure](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest)  
+[Ver Imagenes](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/cli-ps-findimage)  
+[Tipos de máquinas](https://docs.microsoft.com/es-es/azure/azure-resource-manager/templates/error-sku-not-available)  

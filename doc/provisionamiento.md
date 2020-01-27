@@ -45,7 +45,7 @@ el de gerlingguy.
 
 ## Referencias
 
-[Documentación](https://www.vagrantup.com/docs/vagrantfile/version.html)
-[Documentación](https://www.vagrantup.com/docs/vagrantfile/machine_settings.html)
-[Documentación](https://www.vagrantup.com/docs/vagrantfile/ssh_settings.html)
-[Documentación](https://www.vagrantup.com/docs/providers/configuration.html)
+[Documentación](https://www.vagrantup.com/docs/vagrantfile/version.html)  
+[Documentación](https://www.vagrantup.com/docs/vagrantfile/machine_settings.html)  
+[Documentación](https://www.vagrantup.com/docs/vagrantfile/ssh_settings.html)  
+[Documentación](https://www.vagrantup.com/docs/providers/configuration.html)  
