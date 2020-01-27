@@ -43,6 +43,18 @@ Este se encargará de:
 Para instalar docker he descargado el rol desde [Galaxy Ansible](https://galaxy.ansible.com/search?deprecated=false&keywords=docker&order_by=-relevance&page=1) y he escogido el que más descargas tenía, que era
 el de gerlingguy.
 
+## Rendimiento
+
+### Máquina virtual local
+
+Microservicio de Productos en local:
+
+![Rendimiento-productos-vb-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-local-productos.png)
+
+Microservicio de Pedidos en local:
+
+![Rendimiento-pedidos-vb-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-local-pedidos.png)
+
 ## Referencias
 
 [Documentación](https://www.vagrantup.com/docs/vagrantfile/version.html)  
