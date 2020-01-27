@@ -60,10 +60,6 @@ De estos dos ultimos comandos hay que exportar como variable de entorno:
     export AZURE_SUBSCRIPTION_ID=<id>
 ```
 
-```vagrantfile
-
-```
-
 He seleccionado una imagen de Ubuntu Server 18.04. Se puede ver las
 imagenes existentes con:
 
