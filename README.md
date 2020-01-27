@@ -79,7 +79,36 @@ Prestaciones: performance_request.yml
 
 ## Provision
 
-Para crear la máquina virtual en local ejecutar desde provision/local:
+Para crear la máquina virtual en local primero debe crear 2 ficheros .env en la raiz delproyecto. El fichero .env_productos, necesario
+para el microservicio de productos:
+
+```ini
+DB_URI=<URI a BD de MongoDB>
+```
+
+(Si se deseea que se ejecute en la BD local del dockerfile que se está ejecutando en la máquina indicar `mongodb://localhost:27017/productos`)
+
+El fichero .env_productos, necesario para el microservicio de pedidos:
+
+```ini
+DB_USERNAME=<username>
+DB_PASSWORD=<password>
+DB_NAME=<bd_name>
+GUNI_HOSTS=<host_gunicorn>
+GUNI_PORT=8000
+```
+
+Un ejemplo podría ser:
+
+```ini
+DB_USERNAME=usuario
+DB_PASSWORD=contraseña
+DB_NAME=ms_pedidos
+GUNI_HOSTS=0.0.0.0
+GUNI_PORT=8000
+```
+
+Una vez se han creado estos archivos .env. Ejecutar desde provision/local:
 
 ```bash
     vagrant up
