@@ -76,3 +76,11 @@ Las rutas implementadas por ahora son:
 Prestaciones: performance_request.yml
 
 [Documentación test de rendimiento](doc/rendimientoTaurus.md)
+
+## Provision
+
+Para crear la máquina virtual en local ejecutar desde provision/local:
+
+```bash
+    vagrant up
+```
