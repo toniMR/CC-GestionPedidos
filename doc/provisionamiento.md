@@ -40,8 +40,8 @@ Este se encargará de:
 - Copiar los ficheros .env_pedidos y .env_productos
 - Ejecutar las imágenes.
 
-Para instalar docker he descargado el rol desde [Galaxy Ansible](https://galaxy.ansible.com/search?deprecated=false&keywords=docker&order_by=-relevance&page=1) y he escogido el que más descargas tenía, que era
-el de gerlingguy.
+Para instalar docker he descargado el rol [docker](https://galaxy.ansible.com/geerlingguy/docker) desde [Galaxy Ansible](https://galaxy.ansible.com/search?deprecated=false&keywords=docker&order_by=-relevance&page=1) y he escogido el que más descargas tenía, que era el de gerlingguy. Para solucionar un error con pip a la hora de desplegar la máquina en Azure he utilizado el rol [pip](https://galaxy.ansible.com/geerlingguy/pip) en
+playbook-azure.yml.
 
 ## Rendimiento
 
@@ -67,7 +67,9 @@ Microservicio de Pedidos en local:
 
 ## Referencias
 
-[Documentación](https://www.vagrantup.com/docs/vagrantfile/version.html)  
-[Documentación](https://www.vagrantup.com/docs/vagrantfile/machine_settings.html)  
-[Documentación](https://www.vagrantup.com/docs/vagrantfile/ssh_settings.html)  
-[Documentación](https://www.vagrantup.com/docs/providers/configuration.html)  
+https://www.vagrantup.com/docs/vagrantfile/version.html  
+https://www.vagrantup.com/docs/vagrantfile/machine_settings.html  
+https://www.vagrantup.com/docs/vagrantfile/ssh_settings.html  
+https://www.vagrantup.com/docs/providers/configuration.html  
+https://blog.deiser.com/es/primeros-pasos-con-ansible  
+https://www.adictosaltrabajo.com/2015/09/04/creacion-de-entornos-de-integracion-con-ansible-y-vagrant/  
