@@ -55,6 +55,16 @@ Microservicio de Pedidos en local:
 
 ![Rendimiento-pedidos-vb-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-local-pedidos.png)
 
+### Máquina virtual en Azure
+
+Microservicio de Productos en local:
+
+![Rendimiento-productos-vb-Azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-azure-productos.png)
+
+Microservicio de Pedidos en local:
+
+![Rendimiento-pedidos-vb-Azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-azure-pedidos.png)
+
 ## Referencias
 
 [Documentación](https://www.vagrantup.com/docs/vagrantfile/version.html)  
