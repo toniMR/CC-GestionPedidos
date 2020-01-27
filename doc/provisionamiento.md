@@ -49,11 +49,11 @@ el de gerlingguy.
 
 Microservicio de Productos en local:
 
-[Rendimiento-productos-vb-local](./img/provisionamiento/virtualbox-local-productos.png)
+![Rendimiento-productos-vb-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-local-productos.png)
 
 Microservicio de Pedidos en local:
 
-[Rendimiento-pedidos-vb-local](./img/provisionamiento/virtualbox-local-pedidos.png)
+![Rendimiento-pedidos-vb-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-local-pedidos.png)
 
 ## Referencias
 
