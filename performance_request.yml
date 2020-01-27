@@ -1,9 +1,9 @@
 
 # Medir prestaciones de los microservicios con Taurus:
     execution:
-        - concurrency: 8   # 8 usuarios simultáneos
-          ramp-up: 8s    # En 10s se alcanzan los 10 usuarios
-          hold-for: 30s   # Cada usuario mantiene la conexión durante 50s
+        - concurrency: 10   # 8 usuarios simultáneos
+          ramp-up: 10s    # En 10s se alcanzan los 10 usuarios
+          hold-for: 50s   # Cada usuario mantiene la conexión durante 50s
           scenario: pedidos-rest-performance  # Nombre del test (escenario) a ejecutar
     
     # Definir escenario
