@@ -77,9 +77,9 @@ Prestaciones: performance_request.yml
 
 [Documentación test de rendimiento](doc/rendimientoTaurus.md)
 
-## Provision
+## Provisión
 
-Para crear la máquina virtual en local primero debe crear 2 ficheros .env en la raiz delproyecto. El fichero .env_productos, necesario
+Para crear la máquina primero debe crear 2 ficheros .env en la raiz del proyecto. El fichero .env_productos, necesario
 para el microservicio de productos:
 
 ```ini
@@ -108,8 +108,30 @@ GUNI_HOSTS=0.0.0.0
 GUNI_PORT=8000
 ```
 
-Una vez se han creado estos archivos .env. Ejecutar desde provision/local:
+**Crear la máquina en local:**
+
+Una vez se han creado estos archivos .env. Ejecutar desde **./provision/local/**:
 
 ```bash
     vagrant up
 ```
+
+**Crear la máquina en Azure:**
+
+Primero hay que exportar las siguientes variables de entorno, como se explica en [Provisionar máquinas de Azure con Vagrant](./doc/azure.md):
+
+```bash
+    export AZURE_TENANT_ID=<tenant>
+    export AZURE_CLIENT_ID=<appId>
+    export AZURE_CLIENT_SECRET=<password>
+    export AZURE_SUBSCRIPTION_ID=<id>
+```
+
+Después, desde la ruta **./provision/azure/**:
+
+```bash
+    vagrant up
+```
+
+Entre en la sección [Provisionamiento de Máquinas Virtuales](./doc/provisionamiento) para ver más documentación sobre como
+se ha realizado el provisionamiento de máquinas virtuales.
