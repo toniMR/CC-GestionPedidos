@@ -28,17 +28,20 @@ En [Provisionar máquinas de Azure con Vagrant](./azure.md) documento como he re
 
 ## Ansible
 
-Para el provisionamiento he utilizado Ansible.
+Para el provisionamiento he utilizado Ansible, he utilizado el fichero playbook-local.yml para la máquina
+local y playbook-azure.yml para la máquina en Azure.
 
-Tanto para la máquina virtual en local como en Azure he utilizado el mismo fichero, playbook.yml.
+Se encargarán de:
 
-Este se encargará de:
-
+- Actualizar el sistema.
+- Instalar pip.
 - Instalar docker a través de un rol Ansible Galaxy.
 - Instalar el módulo de python "docker".
 - Descargar las imágenes docker.
 - Copiar los ficheros .env_pedidos y .env_productos
 - Ejecutar las imágenes.
+
+Lo único en que se diferencian es en la forma que instala pip y el módulo de docker con pip.
 
 Para instalar docker he descargado el rol [docker](https://galaxy.ansible.com/geerlingguy/docker) desde [Galaxy Ansible](https://galaxy.ansible.com/search?deprecated=false&keywords=docker&order_by=-relevance&page=1) y he escogido el que más descargas tenía, que era el de gerlingguy. Para solucionar un error con pip a la hora de desplegar la máquina en Azure he utilizado el rol [pip](https://galaxy.ansible.com/geerlingguy/pip) en
 playbook-azure.yml.
