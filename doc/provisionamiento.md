@@ -57,11 +57,11 @@ Microservicio de Pedidos en local:
 
 ### Máquina virtual en Azure
 
-Microservicio de Productos en local:
+Microservicio de Productos en Azure:
 
 ![Rendimiento-productos-vb-Azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-azure-productos.png)
 
-Microservicio de Pedidos en local:
+Microservicio de Pedidos en Azure:
 
 ![Rendimiento-pedidos-vb-Azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-azure-pedidos.png)
 

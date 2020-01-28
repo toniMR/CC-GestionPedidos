@@ -82,6 +82,8 @@ siguiente comando desde el CLI de Azure.
     az vm list-skus --location francesouth --output table
 ```
 
+Al ver que en francesouth no hay muchos tipo de máquinas disponibles escogeré francecentral.
+
 También se ha creado un grupo de recursos desde el Vagrantfile para que estén organizados todos los recuros
 en el mismo grupo. Así será mas fácil de administrar.
 
