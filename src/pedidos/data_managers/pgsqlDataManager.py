@@ -18,7 +18,7 @@ logger.setLevel(logging.INFO)
 #logger.addHandler(logstash.LogstashHandler(host, 5959, version=1)
 #logger.addHandler(logstash.TCPLogstashHandler(host, 5959, version=1)
 
-class PgsqlDataMager:
+class PgsqlDataManager:
 
     def __init__(self, user, password, host, port, db_name):
         self.user = user
