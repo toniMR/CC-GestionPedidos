@@ -46,27 +46,43 @@ Lo único en que se diferencian es en la forma que instala pip y el módulo de d
 Para instalar docker he descargado el rol [docker](https://galaxy.ansible.com/geerlingguy/docker) desde [Galaxy Ansible](https://galaxy.ansible.com/search?deprecated=false&keywords=docker&order_by=-relevance&page=1) y he escogido el que más descargas tenía, que era el de gerlingguy. Para solucionar un error con pip a la hora de desplegar la máquina en Azure he utilizado el rol [pip](https://galaxy.ansible.com/geerlingguy/pip) en
 playbook-azure.yml.
 
+## Azure
+
+### Microservicio Productos
+
+![azure-productos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/azure-productos.png)
+
+### Microservicio Pedidos
+
+![azure-pedidos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/azure-pedidos.png)
+
 ## Rendimiento
 
 ### Máquina virtual local
 
 Microservicio de Productos en local:
 
-![Rendimiento-productos-vb-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-local-productos.png)
+![terminal-productos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/terminal-productos-local.png)
+![bzm-productos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/bzm-productos-local.png)
 
 Microservicio de Pedidos en local:
 
-![Rendimiento-pedidos-vb-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-local-pedidos.png)
+![terminal-pedidos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/terminal-pedidos-local.png)
+![bzm-pedidos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/bzm-pedidos-local.png)
 
 ### Máquina virtual en Azure
 
 Microservicio de Productos en Azure:
 
-![Rendimiento-productos-vb-Azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-azure-productos.png)
+![terminal-productos-azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/terminal-productos-azure.png)
+![bzm-productos-azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/bzm-productos-azure.png)
 
 Microservicio de Pedidos en Azure:
 
-![Rendimiento-pedidos-vb-Azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/virtualbox-azure-pedidos.png)
+![terminal-pedidos-azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/terminal-pedidos-azure.png)
+![bzm-pedidos-azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/bzm-pedidos-azure.png)
+
+Como se puede observar, el rendimiento en Azure es muy bajo con 135 peticiones por segundo y 65ms de tiempo de respuesta medio para ambos microservicios.
 
 ## Referencias
 
