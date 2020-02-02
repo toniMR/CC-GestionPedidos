@@ -19,6 +19,10 @@ class TestPedidosRest (unittest.TestCase):
         self.app = app.test_client()
         self.app.testing = True
 
+    def test_00_obtener_pedidos_vacio(self):
+        result = self.app.get('pedidos')
+        self.assertEqual(result.status_code, 200)
+
     def test_01_insertar_pedido(self):
         pedido_test =  {"id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"id": "MI200","unidades": 4},{"id": "LAM3","unidades": 7}]}
         result = self.app.post('pedidos', json=pedido_test)
@@ -56,3 +60,7 @@ class TestPedidosRest (unittest.TestCase):
     def test_08_get_pedido_inexistente(self):
         result = self.app.get('pedidos/PYTEST2')
         self.assertEqual(result.status_code, 404)
+
+    def test_09_obtener_pedidos(self):
+        result = self.app.get('pedidos')
+        self.assertEqual(result.status_code, 200)
