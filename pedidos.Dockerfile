@@ -59,4 +59,4 @@ CMD /etc/init.d/postgresql start \
     # No puedo utilizar python3 setup.py start porque me da error
     # python3 setup.py start -w 8 --host=${GUNI_HOST} -p {GUNI_PORT}
     && cd src/pedidos \
-    && gunicorn -w 8 -b ${GUNI_HOST}:${GUNI_PORT} pedidos_rest:app
+    && gunicorn -w ${WORKERS} -b ${GUNI_HOST}:${GUNI_PORT} pedidos_rest:app
