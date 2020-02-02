@@ -9,53 +9,115 @@ de forma muy sencilla.
 Para realizar los test de rendimiento solo hay que crear un fichero .yml con las preferencias que
 deseamos para realizar el test y las rutas sobre las que se harán las peticiones.
 
-He creado el fichero **performance_request.yml**, en el que para cada microservicio he realizado el 
-mismo conjunto de pruebas:
+He creado el fichero **performance_request.yml**, en el que para cada microservicio he realizado 2 peticiones
+GET a 2 rutas diferentes.
 
-- POST (Se creará un elemento)
-- PUT (Se modificará ese elemento)
-- DELETE (Se eliminará ese elemento)
+```yml
+# Medir prestaciones de los microservicios con Taurus:
+    execution:
+        - concurrency: 10              # Habrá 10 usuarios concurrentes
+          ramp-up: 15s                 # Se alcanzarán los 10 usuarios en 15s
+          hold-for: 60s                # Los usuarios mantendrán la conexión por 1m
+          scenario: pedidos-rest-test  # Nombre del test a ejecutar
+    
+    # Definir escenario
+    scenarios:
+        pedidos-rest-test:
 
-El fichero tiene comentarios explicativos sobre su configuración.
+            # Deshabilitar cache
+            store-cache: false
+            # Definir peticiones
+            requests:
+            - url: http://localhost:8000/pedidos
+              method: GET
+
+            - url: http://localhost:8000/pedidos/TAURUS
+              method: GET 
+
+        productos-rest-test:
+
+          # Deshabilitar cache
+          store-cache: false
+          # Definir peticiones
+          requests:
+          - url: http://localhost:8080/productos
+            method: GET
+
+          - url: http://localhost:8080/productos/PR902205
+            method: GET
+```
+
+Como se puede observar he establecido que sean 10 usuarios concurrentes, que mantendrán la conexión durante
+1 minuto y se alcanzará los 10 usuarios concurrentes a los 15 segundos.  
+
+Para el microservicio de pedidos se realiza una petición GET sobre los pedidos y otra petición GET sobre
+un pedido concreto.
+
+Para el microservicio de producto se realiza una petición GET sobre los productos y otra petición GET sobre
+un producto concreto.
 
 ## Resultados
 
-He realizado las pruebas de 2 formas:
+Se ha realizado las siguientes pruebas:
 
-- Sin utilizar nginx.
-- Utilizando nginx para redireccionar las peticiones.
+- [Microservicio de Productos con 2 Hilos y BD remota](#microservicio-de-productos-con-2-hilos-y-bd-remota)
+- [Microservicio de Productos con 2 Hilos](#microservicio-de-productos-con-2-hilos)
+- [Microservicio de Productos con 8 Hilos y BD remota](#microservicio-de-productos-con-8-hilos-y-bd-remota)
+- [Microservicio de Productos con 8 Hilos](#microservicio-de-productos-con-8-hilos)
+- [Microservicio de Pedidos con 2 Hilos](#microservicio-de-pedidos-con-2-hilos)
+- [Microservicio de Pedidos con 8 Hilos](#microservicio-de-pedidos-con-8-hilos)
 
-### Resultados Microservicio de Productos
+### Microservicio de Productos con 2 Hilos y BD remota
 
-![taurus-terminal-productos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/taurus-terminal-productos.png)
-![taurus-bzm-productos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/taurus-bzm-productos.png)
+![terminal-productos-2hilos-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-2hilos-bdremota.png)
+![bzm-productos-2hilos-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-2hilos-bdremota.png)
 
-Como se puede observar en la terminal, se muestra que llega hasta las 2794 peticiones por segundo, mientras que
-en blazemeter muestra que tiene 2203 peticiones por segundo de media.
+Como se puede observar se obtiene una media de 95.91 peticiones por segundo y el tiempo de respuesta medio es de 71ms.
 
-![taurus-terminal-productos-nginx](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/taurus-terminal-productos-nginx.png)
-![taurus-bzm-productos-nginx](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/taurus-bzm-productos-nginx.png)
+### Microservicio de Productos con 2 Hilos
 
-Como se puede observar en la terminal, se muestra que llega hasta las 2234 peticiones por segundo, mientras que
-en blazemeter muestra que tiene 1950 peticiones por segundo de media.
+![terminal-productos-2hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-2hilos.png)
+![bzm-productos-2hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-2hilos.png)
 
+Como se puede observar se obtiene una media de 2496 peticiones por segundo y el tiempo de respuesta medio es de 3ms.
 
-### Resultados Microservicio de Pedidos
+### Microservicio de Productos con 8 Hilos y BD remota
 
-Como se puede observar en la terminal, se muestra que llega hasta las 2558 peticiones por segundo, mientras que
-en blazemeter muestra que tiene 2270 peticiones por segundo de media.
+![terminal-productos-8hilos-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-8hilos-bdremota.png)
+![bzm-productos-8hilos-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-8hilos-bdremota.png)
 
-![taurus-terminal-pedidos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/taurus-terminal-pedidos.png)
-![taurus-bzm-pedidos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/taurus-bzm-pedidos.png)
+Como se puede observar se obtiene una media de 94.75 peticiones por segundo y el tiempo de respuesta medio es de 95ms.
 
-Como se puede observar en la terminal, se muestra que llega hasta las 2239 peticiones por segundo, mientras que
-en blazemeter muestra que tiene 2057 peticiones por segundo de media.
+### Microservicio de Productos con 8 Hilos
 
-![taurus-terminal-pedidos-nginx](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/taurus-terminal-pedidos-nginx.png)
-![taurus-bzm-pedidos-nginx](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/taurus-bzm-pedidos-nginx.png)
+![terminal-productos-8hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-8hilos.png)
+![bzm-productos-8hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-8hilos.png)
+
+Como se puede observar se obtiene una media de 3667.65 peticiones por segundo y el tiempo de respuesta medio es de 2ms. Ha
+ habido un incremento importante en cuanto a las peticiones por segundo.
+
+### Microservicio de Pedidos con 2 Hilos
+
+![terminal-pedidos-2hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-pedidos-2hilos.png)
+![bzm-pedidos-2hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-pedidos-2hilos.png)
+
+Como se puede observar se obtiene una media de 1354.97 peticiones por segundo y el tiempo de respuesta medio es de 6ms.
+
+### Microservicio de Pedidos con 8 Hilos
+
+![terminal-pedidos-8hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-pedidos-8hilos.png)
+![bzm-pedidos-8hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-pedidos-8hilos.png)
+
+Como se puede observar se obtiene una media de 2498.37 peticiones por segundo y el tiempo de respuesta medio es de 3ms. Ha
+ habido un incremento de 1100 peticiones por segundo y el tiempo de respuesta medio se ha reducido a la mitad.
 
 ### Resultados generales
 
-Ambos microservicios han obtenido alrededor de las 2000 peticiones por segundo con 8 usuarios concurrentes. Sin embargo,
-se puede observar que el rendimiento cuando se ha utilizado Nginx para redireccionar las peticiones a los microservicios
-han sido algo menores, cuando la idea era que esto mejorase las prestaciones.  
+Ambos microservicios han superado las 1000 peticiones por segundo con 10 usuarios concurrentes.
+
+- **Microservicio de productos:** 3667.65 peticiones/s y el tiempo de respuesta medio de 2ms con 8 hilos.
+- **Microservicio de pedidos:** 2498.37 peticiones/s y el tiempo de respuesta medio de 3ms con 8 hilos.
+
+Se ha observado que el uso de la Base de Datos remota en Mongo Atlas es un factor muy limitante, pues no ha podido pasar
+ de las 100 peticiones por segundo tanto con 2 hilos como con 8, mientras que en local y con 2 hilos ya se obtiene 2400 peticiones por segundo para
+ el microservicio de productos.
