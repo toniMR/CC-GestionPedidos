@@ -60,53 +60,53 @@ un producto concreto.
 
 Se ha realizado las siguientes pruebas:
 
-- [Microservicio de Productos con 2 Hilos y BD remota](#microservicio-de-productos-con-2-hilos-y-bd-remota)
-- [Microservicio de Productos con 2 Hilos](#microservicio-de-productos-con-2-hilos)
-- [Microservicio de Productos con 8 Hilos y BD remota](#microservicio-de-productos-con-8-hilos-y-bd-remota)
-- [Microservicio de Productos con 8 Hilos](#microservicio-de-productos-con-8-hilos)
-- [Microservicio de Pedidos con 2 Hilos](#microservicio-de-pedidos-con-2-hilos)
-- [Microservicio de Pedidos con 8 Hilos](#microservicio-de-pedidos-con-8-hilos)
+- [Microservicio de Productos con 2 workers y BD remota](#microservicio-de-productos-con-2-workers-y-bd-remota)
+- [Microservicio de Productos con 2 workers](#microservicio-de-productos-con-2-workers)
+- [Microservicio de Productos con 8 workers y BD remota](#microservicio-de-productos-con-8-workers-y-bd-remota)
+- [Microservicio de Productos con 8 workers](#microservicio-de-productos-con-8-workers)
+- [Microservicio de Pedidos con 2 workers](#microservicio-de-pedidos-con-2-workers)
+- [Microservicio de Pedidos con 8 workers](#microservicio-de-pedidos-con-8-workers)
 
-### Microservicio de Productos con 2 Hilos y BD remota
+### Microservicio de Productos con 2 workers y BD remota
 
-![terminal-productos-2hilos-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-2hilos-bdremota.png)
-![bzm-productos-2hilos-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-2hilos-bdremota.png)
+![terminal-productos-2workers-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-2workers-bdremota.png)
+![bzm-productos-2workers-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-2workers-bdremota.png)
 
 Como se puede observar se obtiene una media de 95.91 peticiones por segundo y el tiempo de respuesta medio es de 71ms.
 
-### Microservicio de Productos con 2 Hilos
+### Microservicio de Productos con 2 workers
 
-![terminal-productos-2hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-2hilos.png)
-![bzm-productos-2hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-2hilos.png)
+![terminal-productos-2workers](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-2workers.png)
+![bzm-productos-2workers](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-2workers.png)
 
 Como se puede observar se obtiene una media de 2496 peticiones por segundo y el tiempo de respuesta medio es de 3ms.
 
-### Microservicio de Productos con 8 Hilos y BD remota
+### Microservicio de Productos con 8 workers y BD remota
 
-![terminal-productos-8hilos-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-8hilos-bdremota.png)
-![bzm-productos-8hilos-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-8hilos-bdremota.png)
+![terminal-productos-8workers-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-8workers-bdremota.png)
+![bzm-productos-8workers-bdremota](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-8workers-bdremota.png)
 
 Como se puede observar se obtiene una media de 94.75 peticiones por segundo y el tiempo de respuesta medio es de 95ms.
 
-### Microservicio de Productos con 8 Hilos
+### Microservicio de Productos con 8 workers
 
-![terminal-productos-8hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-8hilos.png)
-![bzm-productos-8hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-8hilos.png)
+![terminal-productos-8workers](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-8workers.png)
+![bzm-productos-8workers](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-8workers.png)
 
 Como se puede observar se obtiene una media de 3667.65 peticiones por segundo y el tiempo de respuesta medio es de 2ms. Ha
  habido un incremento importante en cuanto a las peticiones por segundo.
 
-### Microservicio de Pedidos con 2 Hilos
+### Microservicio de Pedidos con 2 workers
 
-![terminal-pedidos-2hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-pedidos-2hilos.png)
-![bzm-pedidos-2hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-pedidos-2hilos.png)
+![terminal-pedidos-2workers](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-pedidos-2workers.png)
+![bzm-pedidos-2workers](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-pedidos-2workers.png)
 
 Como se puede observar se obtiene una media de 1354.97 peticiones por segundo y el tiempo de respuesta medio es de 6ms.
 
-### Microservicio de Pedidos con 8 Hilos
+### Microservicio de Pedidos con 8 workers
 
-![terminal-pedidos-8hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-pedidos-8hilos.png)
-![bzm-pedidos-8hilos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-pedidos-8hilos.png)
+![terminal-pedidos-8workers](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-pedidos-8workers.png)
+![bzm-pedidos-8workers](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-pedidos-8workers.png)
 
 Como se puede observar se obtiene una media de 2498.37 peticiones por segundo y el tiempo de respuesta medio es de 3ms. Ha
  habido un incremento de 1100 peticiones por segundo y el tiempo de respuesta medio se ha reducido a la mitad.
@@ -115,9 +115,9 @@ Como se puede observar se obtiene una media de 2498.37 peticiones por segundo y 
 
 Ambos microservicios han superado las 1000 peticiones por segundo con 10 usuarios concurrentes.
 
-- **Microservicio de productos:** 3667.65 peticiones/s y el tiempo de respuesta medio de 2ms con 8 hilos.
-- **Microservicio de pedidos:** 2498.37 peticiones/s y el tiempo de respuesta medio de 3ms con 8 hilos.
+- **Microservicio de productos:** 3667.65 peticiones/s y el tiempo de respuesta medio de 2ms con 8 workers.
+- **Microservicio de pedidos:** 2498.37 peticiones/s y el tiempo de respuesta medio de 3ms con 8 workers.
 
 Se ha observado que el uso de la Base de Datos remota en Mongo Atlas es un factor muy limitante, pues no ha podido pasar
- de las 100 peticiones por segundo tanto con 2 hilos como con 8, mientras que en local y con 2 hilos ya se obtiene 2400 peticiones por segundo para
+ de las 100 peticiones por segundo tanto con 2 workers como con 8, mientras que en local y con 2 workers ya se obtiene 2400 peticiones por segundo para
  el microservicio de productos.
