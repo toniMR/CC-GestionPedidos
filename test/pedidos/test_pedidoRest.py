@@ -64,3 +64,11 @@ class TestPedidosRest (unittest.TestCase):
     def test_09_obtener_pedidos(self):
         result = self.app.get('pedidos')
         self.assertEqual(result.status_code, 200)
+
+    def test_10_eliminar_pedido(self):
+        result = self.app.delete('pedidos/PYTEST')
+        self.assertEqual(result.status_code, 200)
+
+    def test_11_eliminar_pedido_inexistente(self):
+        result = self.app.delete('pedidos/PYTEST2')
+        self.assertEqual(result.status_code, 404)
