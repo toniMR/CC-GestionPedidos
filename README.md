@@ -95,7 +95,8 @@ DB_USERNAME=<username>
 DB_PASSWORD=<password>
 DB_NAME=<bd_name>
 GUNI_HOSTS=<host_gunicorn>
-GUNI_PORT=8000
+GUNI_PORT=<port_gunicorn>
+WORKERS=<n_workers>
 ```
 
 Un ejemplo podría ser:
@@ -106,6 +107,7 @@ DB_PASSWORD=contraseña
 DB_NAME=ms_pedidos
 GUNI_HOSTS=0.0.0.0
 GUNI_PORT=8000
+WORKERS=2
 ```
 
 **Crear la máquina en local:**
