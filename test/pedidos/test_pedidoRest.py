@@ -53,13 +53,7 @@ class TestPedidosRest (unittest.TestCase):
         result = self.app.put('pedidos/PYTEST2', json=pedido_test)
         self.assertEqual(result.status_code, 404)
 
-    def test_07_get_pedido(self):
-        result = self.app.get('pedidos/PYTEST')
-        self.assertEqual(result.status_code, 200)
-
-    def test_08_get_pedido_inexistente(self):
-        result = self.app.get('pedidos/PYTEST2')
-        self.assertEqual(result.status_code, 404)
+    
 
     def test_09_obtener_pedidos(self):
         result = self.app.get('pedidos')
