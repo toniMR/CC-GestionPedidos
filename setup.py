@@ -18,7 +18,7 @@ class Cleaner(clean):
 
 # Ejecutar pedidos-rest con gunicorn
 class Start(Command):
-    description = 'Ejecutar pedidos-rest con gunicorn'
+    description = 'Ejecutar pedidos_rest con gunicorn'
     user_options = [
         # The format is (long option, short option, description).
         ('workers=', 'w', 'numero de workers'),
@@ -40,7 +40,7 @@ class Start(Command):
             assert self.workers.isdigit(), ('port debe ser un número')
 
     def run(self):
-        command = 'cd ./src/pedidos/ && gunicorn -w ' + self.workers + ' -b ' + self.host + ":" + self.port + " pedidos-rest:app"
+        command = 'cd ./src/pedidos/ && gunicorn -w ' + self.workers + ' -b ' + self.host + ":" + self.port + " pedidos_rest:app"
         subprocess.call(command, shell=True)
 
 setup(

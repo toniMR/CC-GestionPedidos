@@ -6,7 +6,7 @@ import json
 import sys, os.path
 from os import environ
 from gestorPedidos import GestorPedidos
-from data_managers.pgsqlDataManager import PgsqlDataMager
+from data_managers.pgsqlDataManager import PgsqlDataManager
 
 app = Flask(__name__)
 
@@ -32,7 +32,7 @@ if "DB_NAME" in environ and environ['DB_NAME'] != "":
     bd_name = environ['DB_NAME']
 
 # Seleccionar el data_manager
-data_manager =PgsqlDataMager(username, password, host, port, bd_name)
+data_manager = PgsqlDataManager(username, password, host, port, bd_name)
 data_manager.connect()
 
 gestorPedidos = GestorPedidos(data_manager)
@@ -91,7 +91,8 @@ def getPedido(id_pedido):
                 response = {"mensaje": "No existe el pedido con id: " + id_pedido}
                 return response, 404
         except ValueError as error:
-            response = {"status": 400, "mensage": str(error)}
+            response = {"mensage": str(error)}
+            return response, 400
 
     # Modificar un pedido
     if request.method == 'PUT':
@@ -101,7 +102,7 @@ def getPedido(id_pedido):
                 pedido_json = request.get_json()
                 gestorPedidos.modificarPedido(id_pedido, pedido_json)
                 response = {"mensaje": "Pedido modificado con éxito"}
-                return response, 201
+                return response, 200
             else:
                 response = {"mensage": "No existe un pedido con id: " + id_pedido}
                 return response, 404

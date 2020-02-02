@@ -38,7 +38,7 @@ COPY src/pedidos/pedido.py src/pedidos/
 COPY src/pedidos/gestorPedidos.py src/pedidos/
 COPY src/pedidos/pedido_schema.py src/pedidos/
 COPY src/pedidos/data_managers/* src/pedidos/data_managers/
-COPY src/pedidos/pedidos-rest.py ./src/pedidos/
+COPY src/pedidos/pedidos_rest.py ./src/pedidos/
 
 # Instalar dependencias
 # Hay que instalar setuptools  y wheel porque no está instalado por defecto
@@ -59,4 +59,4 @@ CMD /etc/init.d/postgresql start \
     # No puedo utilizar python3 setup.py start porque me da error
     # python3 setup.py start -w 8 --host=${GUNI_HOST} -p {GUNI_PORT}
     && cd src/pedidos \
-    && gunicorn -w 8 -b ${GUNI_HOST}:${GUNI_PORT} pedidos-rest:app
+    && gunicorn -w 8 -b ${GUNI_HOST}:${GUNI_PORT} pedidos_rest:app
