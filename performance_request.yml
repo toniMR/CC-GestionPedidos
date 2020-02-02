@@ -1,14 +1,14 @@
 
 # Medir prestaciones de los microservicios con Taurus:
     execution:
-        - concurrency: 10   # 8 usuarios simultáneos
-          ramp-up: 10s    # En 10s se alcanzan los 10 usuarios
-          hold-for: 50s   # Cada usuario mantiene la conexión durante 50s
-          scenario: pedidos-rest-performance  # Nombre del test (escenario) a ejecutar
+        - concurrency: 10              # Habrá 10 usuarios concurrentes
+          ramp-up: 15s                 # Se alcanzarán los 10 usuarios en 15s
+          hold-for: 60s                # Los usuarios mantendrán la conexión por 1m
+          scenario: productos-rest-test  # Nombre del test a ejecutar
     
     # Definir escenario
     scenarios:
-        pedidos-rest-performance:
+        pedidos-rest-test:
 
             # Deshabilitar cache
             store-cache: false
@@ -16,50 +16,12 @@
             requests:
             
             - url: http://localhost:8000/pedidos
-              method: POST
-              # Seleccionar headers de las peticiones
-              headers:
-                Content-type: application/json
-              # Establecer en la petición el pedido a insertar
-              body:  {
-                        "id": "TAURUS",
-                        "destinatario": "Name",
-                        "direccion": "c/ejemplo Spain",
-                        "productos": [
-                            {
-                                "id": "MI180",
-                                "unidades": 1
-                            },
-                            {
-                                "id": "LAM3",
-                                "unidades": 2
-                            }
-                        ]
-                      }
-            - url: http://localhost:8000/pedidos/TAURUS
-              method: PUT 
-              # Seleccionar headers de las peticiones
-              headers:
-                Content-type: application/json
-                body:  {
-                        "id": "TAURUS",
-                        "destinatario": "Name",
-                        "direccion": "c/ejemplo, N2, Spain",
-                        "productos": [
-                            {
-                                "id": "MI180",
-                                "unidades": 1
-                            },
-                            {
-                                "id": "LAM2",
-                                "unidades": 3
-                            }
-                        ]
-                      }
-            - url: http://localhost:8000/pedidos/TAURUS
-              method: DELETE
+              method: GET
 
-        productos-rest-performance:
+            - url: http://localhost:8000/pedidos/TAURUS
+              method: GET 
+
+        productos-rest-test:
 
           # Deshabilitar cache
           store-cache: false
@@ -67,32 +29,8 @@
           requests:
           
           - url: http://localhost:8080/productos
-            method: POST
-            # Seleccionar headers de las peticiones
-            headers:
-              Content-type: application/json
-            # Establecer en la petición el pedido a insertar
-            body:  {
-                      "_id": "PR902205",
-                      "nombre": "Puerta roble",
-                      "descripcion": "Puerta hecha de roble de 90cm de largo, 220cm de alto y 5 de ancho",
-                      "categorias": ["puertas", "salón", "habitación"],
-                      "precio": 94,
-                      "stock": 25                      
-                    }
+            method: GET
+
           - url: http://localhost:8080/productos/PR902205
-            method: PUT 
-            # Seleccionar headers de las peticiones
-            headers:
-              Content-type: application/json
-              body:  {
-                      "_id": "PR902205",
-                      "nombre": "Puerta roble",
-                      "descripcion": "Puerta hecha de roble de 90cm de largo, 220cm de alto y 5 de ancho",
-                      "categorias": ["puertas", "salón", "habitación"],
-                      "precio": 72,
-                      "stock": 13                      
-                    }
-          - url: http://localhost:8080/productos/PR902205
-            method: DELETE
+            method: GET
 
