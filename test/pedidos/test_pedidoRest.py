@@ -34,3 +34,17 @@ class TestPedidosRest (unittest.TestCase):
         result = self.app.post('pedidos', json=pedido_test)
         self.assertEqual(result.status_code, 400)
 
+    def test_04_modificar_pedido(self):
+        pedido_test =  {"id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"id": "MI200","unidades": 4},{"id": "LAM3","unidades": 8}]}
+        result = self.app.put('pedidos/PYTEST', json=pedido_test)
+        self.assertEqual(result.status_code, 200)
+
+    def test_05_modificar_pedido_malformado(self):
+        pedido_test =  {"id": "PYTEST", "dest": "Antonio", "dir": "c/testing", "prods": [{"id": "MI200","uades": 4},{"id": "LAM3","idades": 8}]}
+        result = self.app.put('pedidos/PYTEST', json=pedido_test)
+        self.assertEqual(result.status_code, 400)
+
+    def test_06_modificar_pedido_inexistente(self):
+        pedido_test =  {"id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"id": "MI200","unidades": 4},{"id": "LAM3","unidades": 8}]}
+        result = self.app.put('pedidos/PYTEST2', json=pedido_test)
+        self.assertEqual(result.status_code, 404)
