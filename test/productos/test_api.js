@@ -28,14 +28,31 @@ describe('Test API', function(){
 
     // Testear la inserción de un producto correcto
     describe('Test inserción de producto', function(){
+
+        var producto = new Producto("LAM2", "Lampara AM 2", "Lampara amarilla de 2 bombillas", ["muebles", "iluminacion", "hogar"], 27, 30);
         
         it('Debe insertar el producto correctamente', function(done){
-            var producto = new Producto("LAM2", "Lampara AM 2", "Lampara amarilla de 2 bombillas", ["muebles", "iluminacion", "hogar"], 27, 30);
 
             supertest(app.app)
                 .post('/productos')
                 .send(producto)
                 .expect(201, done)
+
+        });
+
+        it('Debe responder que ya existe un producto con ese id', function(done){
+
+            supertest(app.app)
+                .post('/productos')
+                .send(producto)
+                .expect(400)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body.mensaje).to.eql("Ya existe un producto con ese id");
+                        done();
+                    }
+                })
 
         });
     });
