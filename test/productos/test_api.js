@@ -69,10 +69,10 @@ describe('Test API', function(){
     // Testear la modificación de un producto
     describe('Test modificar un producto', function(){
         
-        it('Debe modificar el producto correctamente', function(done){
+        var producto = new Producto("LAM2", "Lampara AM 2", "Lampara amarilla de 2 bombillas", ["muebles", "iluminacion", "hogar"], 27, 30);
+        producto.setNombre("Lámpara");
 
-            var producto = new Producto("LAM2", "Lampara AM 2", "Lampara amarilla de 2 bombillas", ["muebles", "iluminacion", "hogar"], 27, 30);
-            producto.setNombre("Lámpara");
+        it('Debe modificar el producto correctamente', function(done){
 
             supertest(app.app)
                 .put('/productos/LAM2')
@@ -82,6 +82,22 @@ describe('Test API', function(){
                     if(err){done(err)}
                     else{
                         chai.expect(res.body.nModified).to.eql(1);
+                        done();
+                    }
+                })
+
+        });
+
+        it('Debe responder que no existe producto con ese id', function(done){
+
+            supertest(app.app)
+                .put('/productos/ASDFG')
+                .send(producto)
+                .expect(404)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body.mensaje).to.eql("No existe un producto con ese id");
                         done();
                     }
                 })
