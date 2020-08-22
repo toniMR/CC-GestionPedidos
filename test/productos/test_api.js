@@ -107,5 +107,20 @@ describe('Test API', function(){
                 })
 
         });
+
+        it('Debe responder que no existe producto con ese id', function(done){
+
+            supertest(app.app)
+                .delete('/productos/ASDFG')
+                .expect(404)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body.mensaje).to.eql("No existe un producto con ese id");
+                        done();
+                    }
+                })
+
+        });
     });
 });
