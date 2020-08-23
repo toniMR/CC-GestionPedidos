@@ -30,10 +30,38 @@ exports.productData = async function(req, res) {
     }
 };
 
+
+// Obtener productos en un rango de precio
+exports.productsPriceRange = async function(req, res) {
+    try{
+        precio_min = parseInt(req.params.precio_min, 10);
+        precio_max = parseInt(req.params.precio_max, 10);
+
+        // Comprobar que son enteros
+        if (!isNaN(precio_min) && !isNaN(precio_max)){
+            // Obtener array de productos en ese rango de precio
+            const products = await Producto.find({precio: { $gt: precio_min, $lt: precio_max }})
+            // Ha encontrado productos
+            if (products.length > 0){
+                return res.status(200).send(products);
+            }
+            else{
+                return res.status(404).json({'mensaje':'No hay productos en ese rango de precio'});
+            }
+        // No son enteros
+        }else{
+            throw ("Debe especificar numeros enteros");
+        }
+    // Hubo algún error
+    }catch(error){
+        return res.status(400).json({'mensaje':'Error: ' + error});
+    }
+};
+
 // Insertar producto
 exports.insertProduct = async function(req, res){
     try{
-            // Buscar si existe un producto con ese _id
+        // Buscar si existe un producto con ese _id
         const product = await Producto.findById(req.body._id)
 
         // Si existe
@@ -58,7 +86,7 @@ exports.insertProduct = async function(req, res){
             return res.status(201).send(result);
         }
     }catch(error){
-        return res.status(404).json({'mensaje':'Error:' + error});
+        return res.status(404).json({'mensaje':'Error: ' + error});
     }
     
 };
@@ -84,7 +112,7 @@ exports.editProduct = async function(req, res){
             return res.status(404).json({'mensaje':'No existe un producto con ese id'});
         }
     }catch(error){
-        return res.status(404).json({'mensaje':'Error:' + error});
+        return res.status(404).json({'mensaje':'Error: ' + error});
     }
 }
 
@@ -102,6 +130,6 @@ exports.deleteProduct = async function(req, res){
             return res.status(404).json({'mensaje':'No existe un producto con ese id'});
         }
     }catch(error){
-        return res.status(404).json({'mensaje':'Error:' + error});
+        return res.status(404).json({'mensaje':'Error: ' + error});
     }
 };

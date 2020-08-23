@@ -81,7 +81,59 @@ describe('Test API', function(){
 
         });
     });
+    
+    // Testear la obtención de productos en un rango de precio
+    describe('Test obtener un producto', function(){
+        it('Debe obtener los productos en el rango de precio', function(done){
 
+            supertest(app.app)
+                .get('/productos/precio/min/10/max/30')
+                .expect(200)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body[0]._id).to.eql("LAM2");
+                        chai.expect(res.body[0].nombre).to.eql("Lampara AM 2");
+                        chai.expect(res.body[0].descripcion).to.eql("Lampara amarilla de 2 bombillas");
+                        chai.expect(res.body[0].categorias).to.eql(["muebles", "iluminacion", "hogar"]);
+                        chai.expect(res.body[0].precio).to.eql(27);
+                        chai.expect(res.body[0].stock).to.eql(30);
+                        done();
+                    }
+                })
+
+        });
+
+        it('Debe mostrar que no existen productos para ese rango de precio', function(done){
+
+            supertest(app.app)
+                .get('/productos/precio/min/1000/max/3000')
+                .expect(404)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body.mensaje).to.eql("No hay productos en ese rango de precio");
+                        done();
+                    }
+                })
+
+        });
+
+        it('Debe indicar que los parametros deben ser enteros', function(done){
+
+            supertest(app.app)
+                .get('/productos/precio/min/ad10dad/max/asd30s')
+                .expect(400)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body.mensaje).to.eql("Error: Debe especificar numeros enteros");
+                        done();
+                    }
+                })
+
+        });
+    });
 
     // Testear la modificación de un producto
     describe('Test modificar un producto', function(){
