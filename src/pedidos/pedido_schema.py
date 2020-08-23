@@ -1,4 +1,4 @@
-from schema import Schema, And, Use
+from schema import Schema, And, Optional
 
 import json
 
@@ -7,6 +7,7 @@ class PedidoSchema:
         self.schema = Schema({'id': And(str),
                                 'destinatario': And(str),
                                 'direccion': And(str),
+                                Optional('estado'): And(str),
                                 'productos': [{
                                                     'id': And(str),
                                                     'unidades': And(int)

@@ -39,6 +39,6 @@ Son los pedidos que realizarán  los usuarios. Cada pedido contendrá:
 [Issue 23: Eliminar un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/23)  
 [Issue 77: Consultar un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/77)  
 [Issue 25: Consultar todos los pedidos](https://github.com/toniMR/CC-GestionPedidos/issues/25)  
-[Issue 26: Consultar los pedidos con un estado determinado](https://github.com/toniMR/CC-GestionPedidos/issues/26)
-[Issue 82: Consultar el estado de un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/82)
+[Issue 26: Consultar los pedidos con un estado determinado](https://github.com/toniMR/CC-GestionPedidos/issues/26)  
+[Issue 82: Consultar el estado de un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/82)  
 [Issue 27: Modificar el estado de un pedido](https://github.com/toniMR/CC-GestionPedidos/issues/27)  

@@ -166,4 +166,24 @@ def estadoPedido(id_pedido):
             response = {"mensaje": str(error)}
             return response, 400
 
+    # Obtener estado de un pedido determinado
+    if request.method == 'PUT':
+        try:
+            pedido = gestorPedidos.getPedido(id_pedido)
+            if(pedido):
+                estado = request.get_json()['estado']
+                pedido_json = json.loads(pedido.toJSON())
+                pedido_json['estado'] = estado
+                print(pedido_json)
+                gestorPedidos.modificarPedido(id_pedido, pedido_json)
+                response = {"mensaje": "El estado del pedido con id: " + id_pedido + "ha sido modificado con éxito"}
+                return response, 200
+            else:
+                response = {"mensaje": "No existe el pedido con id: " + id_pedido}
+                return response, 404
+        except ValueError as error:
+            response = {"mensaje": str(error)}
+            print(response)
+            return response, 400
+
 

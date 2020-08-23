@@ -92,12 +92,18 @@ class TestPedidosRest (unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
 
-    def test_13_eliminar_pedido(self):
+    def test_13_modificar_estado_pedido(self):
+        pedido_test =  {"estado": "Processed"}
+        result = self.app.put('pedidos/PYTEST/estado', json=pedido_test)
+        self.assertEqual(result.status_code, 200)
+
+
+    def test_14_eliminar_pedido(self):
         result = self.app.delete('pedidos/PYTEST')
         self.assertEqual(result.status_code, 200)
 
 
-    def test_14_eliminar_pedido_inexistente(self):
+    def test_15_eliminar_pedido_inexistente(self):
         result = self.app.delete('pedidos/PYTEST2')
         self.assertEqual(result.status_code, 404)
 
