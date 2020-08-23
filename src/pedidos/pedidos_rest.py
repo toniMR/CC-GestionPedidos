@@ -38,9 +38,9 @@ data_manager.connect()
 gestorPedidos = GestorPedidos(data_manager)
 
 
-# Devuelve los pedidos existentes
+# Consultas genéricas con pedidos
 @app.route('/pedidos', methods = ['GET', 'POST'])
-def getPedidos():
+def pedidos():
     response = ""
 
     # Devuelve los pedidos existentes
@@ -58,7 +58,7 @@ def getPedidos():
                 response = {"mensaje": "No existen pedidos"}
                 return response, 200
         except ValueError as error:
-            response = {"mensage": str(error)}
+            response = {"mensaje": str(error)}
             return response, 400
 
     # Insertar un pedido nuevo
@@ -69,15 +69,13 @@ def getPedidos():
             response = {"mensaje": "Pedido insertado con éxito"}
             return response, 201
         except ValueError as error:
-            response = {"mensage": str(error)}
+            response = {"mensaje": str(error)}
             return response, 400
 
-    return response
 
-
-# Devuelve un pedido identificado por su id
+# Consultas genéricas con un pedido determinado
 @app.route('/pedidos/<id_pedido>', methods = ['GET', 'PUT', 'DELETE'])
-def getPedido(id_pedido):
+def pedido(id_pedido):
     response = ""
 
     # Obtener un pedido
@@ -91,7 +89,7 @@ def getPedido(id_pedido):
                 response = {"mensaje": "No existe el pedido con id: " + id_pedido}
                 return response, 404
         except ValueError as error:
-            response = {"mensage": str(error)}
+            response = {"mensaje": str(error)}
             return response, 400
 
     # Modificar un pedido
@@ -104,10 +102,10 @@ def getPedido(id_pedido):
                 response = {"mensaje": "Pedido modificado con éxito"}
                 return response, 200
             else:
-                response = {"mensage": "No existe un pedido con id: " + id_pedido}
+                response = {"mensaje": "No existe un pedido con id: " + id_pedido}
                 return response, 404
         except ValueError as error:
-            response = {"mensage": str(error)}
+            response = {"mensaje": str(error)}
             return response, 400
 
     # Borrar un pedido
@@ -122,7 +120,28 @@ def getPedido(id_pedido):
                 response = {"mensaje": "No existe el pedido con id: " + id_pedido}
                 return response, 404
         except ValueError as error:
-            response = {"mensage": str(error)}
+            response = {"mensaje": str(error)}
             return response, 400
 
-    return response
+
+# Consultas con el estado de un pedido
+@app.route('/pedidos/estado/<estado>', methods = ['GET', 'PUT', 'DELETE'])
+def estadoPedido(estado):
+    response = ""
+
+    # Devuelve el estado del pedido indicado
+    if request.method == 'GET':
+        try:
+            pedidos = gestorPedidos.getPedidosEstado(estado)
+            if len(pedidos) > 0:
+                pedidos_json = []
+                for p in pedidos:
+                    pedidos_json.append(json.loads(p.toJSON()))
+                response = {"pedidos": pedidos_json}
+                return response, 200
+            else:
+                response = {"mensaje": "No existe ningún pedido con estado " + estado}
+                return response, 404
+        except ValueError as error:
+            response = {"mensaje": str(error)}
+            return response, 400

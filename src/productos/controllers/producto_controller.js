@@ -91,7 +91,6 @@ exports.productsText = async function(req, res) {
         const texto = (req.params.texto).split(",");
         // Obtener array de productos que contengan esas palabras
         const products = await Producto.find({$text: { $search: texto.toString() }});
-        console.log(products);
         // Ha encontrado productos
         if (products.length > 0){
             return res.status(200).send(products);

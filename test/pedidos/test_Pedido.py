@@ -26,7 +26,7 @@ class TestPedido(unittest.TestCase):
         self.assertEqual(pedido.getDestinatario(), "Antonio Martos", "Destinatario devuelto correctamente")
         self.assertEqual(pedido.getDireccion(), "c/ ejemplo", "Direccion devuelta correctamente")
         self.assertEqual(pedido.getProductos(), [{"id":"MI120","unidades": 1}, {"id":"LAM1", "unidades": 2}], "Productos devueltos correctamente")
-        self.assertEqual(pedido.getEstado(), "No procesado", "Estado devuelto correctamente")
+        self.assertEqual(pedido.getEstado(), "Unprocessed", "Estado devuelto correctamente")
 
     # Comprobar que se modifica el estado correctamente
     def test_modificarEstado(self):
@@ -55,11 +55,11 @@ class TestPedido(unittest.TestCase):
     # Comprobar que se forma el JSON correctamente
     def test_toJSON(self):
         pedido = Pedido ("222333444", "Antonio Martos", "c/ ejemplo2", [{"id":"MI120","unidades": 1}, {"id":"LAM1", "unidades": 2}])
-        dict_pedido = {"id": "222333444", "destinatario": "Antonio Martos", "direccion": "c/ ejemplo2", "estado": "No procesado", "productos": [{"id":"MI120","unidades": 1}, {"id":"LAM1", "unidades": 2}]}
+        dict_pedido = {"id": "222333444", "destinatario": "Antonio Martos", "direccion": "c/ ejemplo2", "estado": "Unprocessed", "productos": [{"id":"MI120","unidades": 1}, {"id":"LAM1", "unidades": 2}]}
         self.assertEqual(pedido.toJSON(), json.dumps(dict_pedido) , "Estado cambiado correctamente")
 
     # Comprobar el método toString()
     def test_toString(self):
         pedido = Pedido ("222333444", "Antonio Martos", "c/ ejemplo2", [{"id":"MI120","unidades": 1}, {"id":"LAM1", "unidades": 2}])
-        string = "ID: 222333444\nDestinatario: Antonio Martos\nDirección: c/ ejemplo2\nEstado: No procesado\nProductos: id: MI120 unidades: 1, id: LAM1 unidades: 2, "
+        string = "ID: 222333444\nDestinatario: Antonio Martos\nDirección: c/ ejemplo2\nEstado: Unprocessed\nProductos: id: MI120 unidades: 1, id: LAM1 unidades: 2, "
         self.assertEqual(pedido.toString(), string , "Estado cambiado correctamente")

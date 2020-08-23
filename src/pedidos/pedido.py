@@ -4,7 +4,7 @@
 import json
 
 class Pedido:
-    def __init__(self, id, destinatario, direccion, productos, estado="No procesado"):
+    def __init__(self, id, destinatario, direccion, productos, estado="Unprocessed"):
         self.id = id
         self.destinatario = destinatario
         self.direccion = direccion
