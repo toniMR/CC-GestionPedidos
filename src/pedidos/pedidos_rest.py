@@ -124,9 +124,9 @@ def pedido(id_pedido):
             return response, 400
 
 
-# Consultas con el estado de un pedido
-@app.route('/pedidos/estado/<estado>', methods = ['GET', 'PUT', 'DELETE'])
-def estadoPedido(estado):
+# Consultas con el estado los pedidos
+@app.route('/pedidos/estado/<estado>', methods = ['GET'])
+def pedidosEstado(estado):
     response = ""
 
     # Devuelve el estado del pedido indicado
@@ -145,3 +145,25 @@ def estadoPedido(estado):
         except ValueError as error:
             response = {"mensaje": str(error)}
             return response, 400
+
+
+# Consultas sobre el estado de un pedido determinado
+@app.route('/pedidos/<id_pedido>/estado', methods = ['GET', 'PUT'])
+def estadoPedido(id_pedido):
+    response = ""
+
+    # Obtener estado de un pedido determinado
+    if request.method == 'GET':
+        try:
+            pedido = gestorPedidos.getPedido(id_pedido)
+            if(pedido):
+                response = {"estado": pedido.getEstado()}
+                return response, 200
+            else:
+                response = {"mensaje": "No existe el pedido con id: " + id_pedido}
+                return response, 404
+        except ValueError as error:
+            response = {"mensaje": str(error)}
+            return response, 400
+
+

@@ -82,17 +82,22 @@ class TestPedidosRest (unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
 
-    def test_11_get_estado_pedido_inexistente(self):
+    def test_11_get_ningun_pedido_estado(self):
         result = self.app.get('pedidos/estado/Entregado')
         self.assertEqual(result.status_code, 404)
 
 
-    def test_12_eliminar_pedido(self):
+    def test_12_get_estado_pedido(self):
+        result = self.app.get('pedidos/PYTEST/estado')
+        self.assertEqual(result.status_code, 200)
+
+
+    def test_13_eliminar_pedido(self):
         result = self.app.delete('pedidos/PYTEST')
         self.assertEqual(result.status_code, 200)
 
 
-    def test_13_eliminar_pedido_inexistente(self):
+    def test_14_eliminar_pedido_inexistente(self):
         result = self.app.delete('pedidos/PYTEST2')
         self.assertEqual(result.status_code, 404)
 
