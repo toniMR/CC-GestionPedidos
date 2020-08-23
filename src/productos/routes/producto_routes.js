@@ -29,8 +29,11 @@ router.get('/productos', producto_controller.productsData);
 // GET un producto concreto (por su id)
 router.get('/productos/:_id', producto_controller.productData);
 
-// GET un producto en un rango de precio
+// GET productos en un rango de precio
 router.get('/productos/precio/min/:precio_min/max/:precio_max', producto_controller.productsPriceRange);
+
+// GET productos pertenecientes a varias categorias
+router.get('/productos/categorias/:categorias', producto_controller.productsCategories);
 
 // POST producto
 router.post('/productos', producto_controller.insertProduct);

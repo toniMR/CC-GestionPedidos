@@ -83,7 +83,7 @@ describe('Test API', function(){
     });
     
     // Testear la obtención de productos en un rango de precio
-    describe('Test obtener un producto', function(){
+    describe('Test obtener productos en rango de precio', function(){
         it('Debe obtener los productos en el rango de precio', function(done){
 
             supertest(app.app)
@@ -134,6 +134,65 @@ describe('Test API', function(){
 
         });
     });
+
+
+    describe('Test obtener productos en categorias', function(){
+        it('Debe obtener los productos con esas categorias', function(done){
+
+            supertest(app.app)
+                .get('/productos/categorias/Muebles,Iluminacion,Hogar')
+                .expect(200)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body[0]._id).to.eql("LAM2");
+                        chai.expect(res.body[0].nombre).to.eql("Lampara AM 2");
+                        chai.expect(res.body[0].descripcion).to.eql("Lampara amarilla de 2 bombillas");
+                        chai.expect(res.body[0].categorias).to.eql(["muebles", "iluminacion", "hogar"]);
+                        chai.expect(res.body[0].precio).to.eql(27);
+                        chai.expect(res.body[0].stock).to.eql(30);
+                        done();
+                    }
+                })
+
+        });
+
+        it('Debe obtener los productos que incluyan esas categorias', function(done){
+
+            supertest(app.app)
+                .get('/productos/categorias/Muebles,Iluminacion')
+                .expect(200)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body[0]._id).to.eql("LAM2");
+                        chai.expect(res.body[0].nombre).to.eql("Lampara AM 2");
+                        chai.expect(res.body[0].descripcion).to.eql("Lampara amarilla de 2 bombillas");
+                        chai.expect(res.body[0].categorias).to.eql(["muebles", "iluminacion", "hogar"]);
+                        chai.expect(res.body[0].precio).to.eql(27);
+                        chai.expect(res.body[0].stock).to.eql(30);
+                        done();
+                    }
+                })
+
+        });
+
+        it('No debe encontrar ningun producto con esas categorias', function(done){
+
+            supertest(app.app)
+                .get('/productos/categorias/Muebles,Iluminacion,Hogar,Piscina')
+                .expect(404)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body.mensaje).to.eql("No hay productos que pertenezcan a todas esas categorias");
+                        done();
+                    }
+                })
+
+        });
+    });
+
 
     // Testear la modificación de un producto
     describe('Test modificar un producto', function(){

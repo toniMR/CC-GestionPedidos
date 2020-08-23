@@ -34,8 +34,9 @@ exports.productData = async function(req, res) {
 // Obtener productos en un rango de precio
 exports.productsPriceRange = async function(req, res) {
     try{
-        precio_min = parseInt(req.params.precio_min, 10);
-        precio_max = parseInt(req.params.precio_max, 10);
+        // Parsear parametros a enteros
+        const precio_min = parseInt(req.params.precio_min, 10);
+        const precio_max = parseInt(req.params.precio_max, 10);
 
         // Comprobar que son enteros
         if (!isNaN(precio_min) && !isNaN(precio_max)){
@@ -57,6 +58,32 @@ exports.productsPriceRange = async function(req, res) {
         return res.status(400).json({'mensaje':'Error: ' + error});
     }
 };
+
+
+// Obtener productos pertenecientes a ciertas categorias
+exports.productsCategories = async function(req, res) {
+    try{
+        // Obtener categorias
+        var categorias_split = (req.params.categorias).split(",");
+        var categorias = []
+        for (var i=0; i<categorias_split.length; i++){
+            categorias.push(categorias_split[i].toLowerCase());
+        }
+        // Obtener array de productos que estén en esas categorias
+        const products = await Producto.find({categorias: { $all: categorias}});
+        // Ha encontrado productos
+        if (products.length > 0){
+            return res.status(200).send(products);
+        }
+        else{
+            return res.status(404).json({'mensaje':'No hay productos que pertenezcan a todas esas categorias'});
+        }
+    }catch(error){
+        return res.status(400).json({'mensaje':'Error: ' + error});
+    }
+}
+
+
 
 // Insertar producto
 exports.insertProduct = async function(req, res){
