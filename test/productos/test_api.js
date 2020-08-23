@@ -32,16 +32,13 @@ describe('Test API', function(){
         var producto = new Producto("LAM2", "Lampara AM 2", "Lampara amarilla de 2 bombillas", ["muebles", "iluminacion", "hogar"], 27, 30);
         
         it('Debe insertar el producto correctamente', function(done){
-
             supertest(app.app)
                 .post('/productos')
                 .send(producto)
                 .expect(201, done)
-
         });
 
         it('Debe responder que ya existe un producto con ese id', function(done){
-
             supertest(app.app)
                 .post('/productos')
                 .send(producto)
@@ -53,8 +50,8 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
+
     });
 
 
@@ -62,7 +59,6 @@ describe('Test API', function(){
     describe('Test obtener un producto', function(){
         
         it('Debe obtener el producto correctamente', function(done){
-
             supertest(app.app)
                 .get('/productos/LAM2')
                 .expect(200)
@@ -78,14 +74,15 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
+
     });
+
     
     // Testear la obtención de productos en un rango de precio
     describe('Test obtener productos en rango de precio', function(){
-        it('Debe obtener los productos en el rango de precio', function(done){
 
+        it('Debe obtener los productos en el rango de precio', function(done){
             supertest(app.app)
                 .get('/productos/precio/min/10/max/30')
                 .expect(200)
@@ -101,11 +98,9 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
 
         it('Debe mostrar que no existen productos para ese rango de precio', function(done){
-
             supertest(app.app)
                 .get('/productos/precio/min/1000/max/3000')
                 .expect(404)
@@ -116,11 +111,9 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
 
         it('Debe indicar que los parametros deben ser enteros', function(done){
-
             supertest(app.app)
                 .get('/productos/precio/min/ad10dad/max/asd30s')
                 .expect(400)
@@ -131,14 +124,14 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
+
     });
 
 
     describe('Test obtener productos en categorias', function(){
-        it('Debe obtener los productos con esas categorias', function(done){
 
+        it('Debe obtener los productos con esas categorias', function(done){
             supertest(app.app)
                 .get('/productos/categorias/Muebles,Iluminacion,Hogar')
                 .expect(200)
@@ -154,11 +147,9 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
 
         it('Debe obtener los productos que incluyan esas categorias', function(done){
-
             supertest(app.app)
                 .get('/productos/categorias/Muebles,Iluminacion')
                 .expect(200)
@@ -174,11 +165,9 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
 
         it('No debe encontrar ningun producto con esas categorias', function(done){
-
             supertest(app.app)
                 .get('/productos/categorias/Muebles,Iluminacion,Hogar,Piscina')
                 .expect(404)
@@ -189,19 +178,72 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
+
+    });
+
+
+    describe('Test obtener productos que incluya el texto', function(){
+
+        it('Debe obtener los productos que contengan ese texto', function(done){
+            supertest(app.app)
+                .get('/productos/texto/lampara,amarilla')
+                .expect(200)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body[0]._id).to.eql("LAM2");
+                        chai.expect(res.body[0].nombre).to.eql("Lampara AM 2");
+                        chai.expect(res.body[0].descripcion).to.eql("Lampara amarilla de 2 bombillas");
+                        chai.expect(res.body[0].categorias).to.eql(["muebles", "iluminacion", "hogar"]);
+                        chai.expect(res.body[0].precio).to.eql(27);
+                        chai.expect(res.body[0].stock).to.eql(30);
+                        done();
+                    }
+                })
+        });
+
+        it('Debe obtener los productos que contengan alguna de las palabras del texto', function(done){
+            supertest(app.app)
+                .get('/productos/texto/armario,sillon,lampara,amarilla')
+                .expect(200)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body[0]._id).to.eql("LAM2");
+                        chai.expect(res.body[0].nombre).to.eql("Lampara AM 2");
+                        chai.expect(res.body[0].descripcion).to.eql("Lampara amarilla de 2 bombillas");
+                        chai.expect(res.body[0].categorias).to.eql(["muebles", "iluminacion", "hogar"]);
+                        chai.expect(res.body[0].precio).to.eql(27);
+                        chai.expect(res.body[0].stock).to.eql(30);
+                        done();
+                    }
+                })
+        });
+
+        it('No debe encontrar ningun producto que contenga ese texto', function(done){
+            supertest(app.app)
+                .get('/productos/texto/armario,silla')
+                .expect(404)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        chai.expect(res.body.mensaje).to.eql("No hay productos que contengan esas palabras");
+                        done();
+                    }
+                })
+        });
+
     });
 
 
     // Testear la modificación de un producto
     describe('Test modificar un producto', function(){
-        
+
         var producto = new Producto("LAM2", "Lampara AM 2", "Lampara amarilla de 2 bombillas", ["muebles", "iluminacion", "hogar"], 27, 30);
         producto.setNombre("Lámpara");
 
         it('Debe modificar el producto correctamente', function(done){
-
             supertest(app.app)
                 .put('/productos/LAM2')
                 .send(producto)
@@ -213,11 +255,9 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
 
         it('Debe responder que no existe producto con ese id', function(done){
-
             supertest(app.app)
                 .put('/productos/ASDFG')
                 .send(producto)
@@ -229,8 +269,8 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
+
     });
 
 
@@ -238,7 +278,6 @@ describe('Test API', function(){
     describe('Test eliminar un producto', function(){
         
         it('Debe eliminar el producto correctamente', function(done){
-
             supertest(app.app)
                 .delete('/productos/LAM2')
                 .expect(200)
@@ -249,11 +288,9 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
 
         it('Debe responder que no existe producto con ese id', function(done){
-
             supertest(app.app)
                 .delete('/productos/ASDFG')
                 .expect(404)
@@ -264,7 +301,9 @@ describe('Test API', function(){
                         done();
                     }
                 })
-
         });
+
     });
+
+
 });

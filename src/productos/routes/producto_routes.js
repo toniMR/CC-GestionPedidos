@@ -35,6 +35,9 @@ router.get('/productos/precio/min/:precio_min/max/:precio_max', producto_control
 // GET productos pertenecientes a varias categorias
 router.get('/productos/categorias/:categorias', producto_controller.productsCategories);
 
+// GET productos que incluyan un texto
+router.get('/productos/texto/:texto', producto_controller.productsText);
+
 // POST producto
 router.post('/productos', producto_controller.insertProduct);
 

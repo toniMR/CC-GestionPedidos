@@ -84,6 +84,26 @@ exports.productsCategories = async function(req, res) {
 }
 
 
+// Obtener productos que contengan un texto
+exports.productsText = async function(req, res) {
+    try{
+        // Obtener palabras
+        const texto = (req.params.texto).split(",");
+        // Obtener array de productos que contengan esas palabras
+        const products = await Producto.find({$text: { $search: texto.toString() }});
+        console.log(products);
+        // Ha encontrado productos
+        if (products.length > 0){
+            return res.status(200).send(products);
+        }
+        else{
+            return res.status(404).json({'mensaje':'No hay productos que contengan esas palabras'});
+        }
+    }catch(error){
+        return res.status(400).json({'mensaje':'Error: ' + error});
+    }
+}
+
 
 // Insertar producto
 exports.insertProduct = async function(req, res){
