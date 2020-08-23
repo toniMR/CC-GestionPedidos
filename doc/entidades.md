@@ -15,8 +15,8 @@ Son los productos que podrán solicitar los usuarios. Cada producto contendrá:
 
 ### Historias de usuario asociadas a los Productos
 
-[Issue 16: Consultar productos existentes](https://github.com/toniMR/CC-GestionPedidos/issues/16)
-[Issue 43: Consultar un producto identificado por su id](https://github.com/toniMR/CC-GestionPedidos/issues/43)
+[Issue 16: Consultar productos existentes](https://github.com/toniMR/CC-GestionPedidos/issues/16)  
+[Issue 43: Consultar un producto identificado por su id](https://github.com/toniMR/CC-GestionPedidos/issues/43)  
 [Issue 17: Consultar productos existentes que cumplan ciertas condiciones](https://github.com/toniMR/CC-GestionPedidos/issues/17)  
 [Issue 18:  Añadir un nuevo producto](https://github.com/toniMR/CC-GestionPedidos/issues/18)  
 [Issue 19: Modificar un producto](https://github.com/toniMR/CC-GestionPedidos/issues/19)  
