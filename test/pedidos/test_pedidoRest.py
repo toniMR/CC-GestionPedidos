@@ -22,8 +22,7 @@ class TestPedidosRest (unittest.TestCase):
 
     def test_00_obtener_pedidos_vacio(self):
         result = self.app.get('pedidos')
-        print(result)
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.status_code, 404)
 
 
     def test_01_insertar_pedido(self):

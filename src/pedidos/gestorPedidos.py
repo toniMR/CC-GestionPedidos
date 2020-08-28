@@ -8,23 +8,29 @@ import json
 
 class GestorPedidos:
 
-    def __init__(self, data_manager):
-        self.data_manager = data_manager
+    def __init__(self, data_manager, logger):
         self.pedido_schema = PedidoSchema()
+        self.data_manager = data_manager
+        self.logger = logger
 
+    def connect(self):
+        self.data_manager.connect()
 
     # Devolver todos los pedidos
     def getPedidos(self):
+        self.logger.info("Obteniendo pedidos")
         return self.data_manager.getPedidos()
 
 
     # Devolver el pedido con el identificador "_id"
     def getPedido(self, id_pedido):
+        self.logger.info("Obteniendo pedido con id " + id_pedido)
         return self.data_manager.getPedido(id_pedido)
 
 
     # Devolver los pedidos con un estado determinado
     def getPedidosEstado(self, estado):
+        self.logger.info("Obteniendo pedidos con estado " + estado)
         return self.data_manager.getPedidosEstado(estado)
         
 
@@ -37,12 +43,16 @@ class GestorPedidos:
             existe = self.data_manager.getPedido(_id)
             if existe:
                 # Ya existe un pedido con ese identificador
+                self.logger.error("Error al insertar pedido. Ya existe un pedido con el id: " + _id)
                 raise ValueError ("Error: Ya existe un pedido con el id: " + _id)
             else:
                 # No existe un pedido con ese identificador
                 self.data_manager.insertarPedido(nuevo_pedido)
+                self.logger.info("Se ha creado el pedido con  id " + _id)
         else:
+            self.logger.error("Error al insertar pedido. El json enviado está mal formado")
             raise ValueError ("Error: El json enviado está mal formado")
+        
 
 
     # Modificar un pedido
@@ -52,15 +62,19 @@ class GestorPedidos:
             if nuevos_datos_pedido.getID() == id_pedido:
                 # El id en la ruta y en el json enviado coinciden
                 self.data_manager.modificarPedido(id_pedido, nuevos_datos_pedido)
+                self.logger.info("Se ha modificado el pedido con  id " + id_pedido)
             else:
                 # El id del pedido en la ruta y en el json enviado no coinciden
                 raise ValueError ("Error: El id en la ruta no coincide con el json enviado. El id no se puede modificar")
+                self.logger.error("Error al modificar el pedido con  id " + id_pedido + ". El id de un pedido no se puede modificar.")
         else:
+            self.logger.error("Error al modificar pedido. El json enviado está mal formado")
             raise ValueError ("Error: El json enviado está mal formado")
 
 
     # Borrar el pedido con el identificador "id"
     def borrarPedido(self, id_pedido):
         self.data_manager.eliminarPedido(id_pedido)
+        self.logger.info("Se ha borrado el pedido con  id " + id_pedido)
 
 

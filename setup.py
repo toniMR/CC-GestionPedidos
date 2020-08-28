@@ -88,7 +88,8 @@ setup(
         'Flask',
         'psycopg2',
         'schema',
-        'gunicorn'
+        'gunicorn',
+        'dependency-injector'
     ],    
  )
 

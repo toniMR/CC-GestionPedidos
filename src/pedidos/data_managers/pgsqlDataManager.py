@@ -2,9 +2,6 @@
 # coding: utf-8
 
 import psycopg2
-
-import logging
-#import logstash
 import json
 import sys, os.path
 
@@ -13,10 +10,6 @@ src_path = (os.path.abspath(os.path.join(os.path.dirname(__file__), './..')))
 sys.path.append(src_path)
 from pedido import Pedido
 
-logger = logging.getLogger('python-logger')
-logger.setLevel(logging.INFO)
-#logger.addHandler(logstash.LogstashHandler(host, 5959, version=1)
-#logger.addHandler(logstash.TCPLogstashHandler(host, 5959, version=1)
 
 class PgsqlDataManager:
 
@@ -59,11 +52,8 @@ class PgsqlDataManager:
                                         estado VARCHAR(255) NOT NULL
                                     );
                                     """)
-
-                    logger.info("Se ha creado la tabla pedidos correctamente")
                 except (Exception, psycopg2.Error) as error :
-                    logger.error("Error al crear la tabla pedidos: " + str(error))
-                    #print ("Error creating the PostgreSQL Database: ", error)
+                    raise ValueError ("Error al crear la tabla pedidos:  " + str(error))
 
 
             # Comprobar si existe la tabla productos_pedido
@@ -81,15 +71,11 @@ class PgsqlDataManager:
                                         PRIMARY KEY (id, id_pedido)
                                     )
                                     """)
-
-                    logger.info("Se ha creado la tabla productos_pedido correctamente")
                 except (Exception, psycopg2.Error) as error :
-                    logger.error("Error al crear la tabla productos_pedido: " + str(error))
-                    #print ("Error creating the PostgreSQL Database: ", error)
+                    raise ValueError ("Error al crear la tabla productos_pedido: " + str(error))
 
         except (Exception, psycopg2.Error) as error :
-            #print ("Error while connecting to PostgreSQL", error)
-            logger.error("Error al conectarse a PostgreSQL: " + str(error))
+            raise ValueError ("Error al conectarse a PostgreSQL: " + str(error))
 
 
     # Obtener todos los pedidos
@@ -113,7 +99,6 @@ class PgsqlDataManager:
 
         except (Exception, psycopg2.Error) as error :
             raise ValueError ("Error: Error al obtener todos los pedidos: " + str(error))
-            logger.error("Error al obtener todos los pedidos: " + str(error))
 
 
     # Obtener un pedido
@@ -161,7 +146,6 @@ class PgsqlDataManager:
             
         except (Exception, psycopg2.Error) as error :
             raise ValueError ("Error: Error al obtener el pedido con id " + id_pedido + ": " + str(error))
-            logger.error("Error al obtener pedido: " + str(error))
 
 
     # Obtener productos de un pedido
@@ -189,7 +173,6 @@ class PgsqlDataManager:
             return productos
         except (Exception, psycopg2.Error) as error :
             raise ValueError ("Error: Error al obtener los productos del pedido con id " + id_pedido + ": " + str(error))
-            logger.error("Error al obtener los productos del pedido con id: " + id_pedido + ": " + str(error))
 
     
     def getPedidosEstado (self, estado):
@@ -211,7 +194,6 @@ class PgsqlDataManager:
             return pedidos
         except (Exception, psycopg2.Error) as error :
             raise ValueError ("Error: Error al obtener los productos con estado " + estado + ": " + str(error))
-            logger.error("Error al obtener los productos con estado " + estado + ": " + str(error))
 
             
     # Insertar un pedido
@@ -232,7 +214,6 @@ class PgsqlDataManager:
             self.cursor.execute(query, valores)
         except (Exception, psycopg2.Error) as error:
             raise ValueError ("Error: Error al insertar productos pedido: " + str(error))
-            logger.error("Error al insertar pedido: " + str(error))
 
 
     # Insertar productos a un pedido
@@ -253,7 +234,7 @@ class PgsqlDataManager:
             self.cursor.execute(query, valores)
 
         except (Exception, psycopg2.Error) as error:
-            logger.error("Error al insertar productos pedido: " + str(error))
+            raise ValueError ("Error: Error al insertar productos pedido: " + str(error))
 
 
     # Modificar un pedido
@@ -280,7 +261,7 @@ class PgsqlDataManager:
             self.modificarProductosPedido(id_pedido, pedido.getProductos())
 
         except (Exception, psycopg2.Error) as error :
-            logger.error("Error al modificar pedido: " + str(error))
+            raise ValueError ("Error al modificar pedido: " + str(error))
 
 
     # Modificar los productos de un pedido
@@ -290,7 +271,7 @@ class PgsqlDataManager:
             self.insertarProductosPedido(id_pedido, productos)
 
         except (Exception, psycopg2.Error) as error :
-            logger.error("Error al modificar productos del pedido: " + str(error))
+            raise ValueError ("Error al modificar productos del pedido: " + str(error))
 
     
     # Eliminar pedido
@@ -311,7 +292,6 @@ class PgsqlDataManager:
 
         except (Exception, psycopg2.Error) as error:
             raise ValueError ("Error: Error al borrar el pedido con id " + id_pedido + ": " + str(error))
-            logger.error("Error al eliminar pedido: " + str(error))
 
 
     # Eliminar productos de un pedido
@@ -331,7 +311,6 @@ class PgsqlDataManager:
 
         except (Exception, psycopg2.Error) as error :
             raise ValueError ("Error: Error al borrar los productos del pedido con id " + id_pedido + ": " + str(error))
-            logger.error("Error al borrar productos del pedido: " + str(error))
 
 
     # Cerrar conexión
@@ -339,4 +318,3 @@ class PgsqlDataManager:
         if(self.connection):
             self.cursor.close()
             self.connection.close()
-            logger.info("Conexión con PostgreSQL cerrada")

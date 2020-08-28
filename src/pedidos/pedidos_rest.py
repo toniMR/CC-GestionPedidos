@@ -5,12 +5,12 @@ from flask import Flask, jsonify, request
 import json
 import sys, os.path
 from os import environ
-from gestorPedidos import GestorPedidos
-from data_managers.pgsqlDataManager import PgsqlDataManager
+from container import Container
 
 app = Flask(__name__)
 
-# Establecer valores por defecto
+
+# Establecer valores para la conexión a la BD.
 username = "username"
 if "DB_USERNAME" in environ and environ['DB_USERNAME'] != "":
     username = environ['DB_USERNAME']   
@@ -27,15 +27,23 @@ port = "5432"
 if "DB_PORT" in environ != "" and environ['DB_PORT'] != "":
     port = environ['DB_PORT']
 
-bd_name = "ms_pedidos"
+db_name = "ms_pedidos"
 if "DB_NAME" in environ and environ['DB_NAME'] != "":
-    bd_name = environ['DB_NAME']
+    db_name = environ['DB_NAME']
+    
 
-# Seleccionar el data_manager
-data_manager = PgsqlDataManager(username, password, host, port, bd_name)
-data_manager.connect()
-
-gestorPedidos = GestorPedidos(data_manager)
+# Inyección de dependencias
+# ----------------------------------------------------------
+container = Container(config={
+                                'username': username,
+                                'password': password,
+                                'host': host,
+                                'port': port,
+                                'db_name': db_name
+                            })
+gestorPedidos = container.gestor_pedidos()
+gestorPedidos.connect()
+# ----------------------------------------------------------
 
 
 # Consultas genéricas con pedidos
@@ -56,7 +64,7 @@ def pedidos():
                 return response, 200
             else:
                 response = {"mensaje": "No existen pedidos"}
-                return response, 200
+                return response, 404
         except ValueError as error:
             response = {"mensaje": str(error)}
             return response, 400
@@ -83,7 +91,7 @@ def pedido(id_pedido):
         try:
             pedido = gestorPedidos.getPedido(id_pedido)
             if(pedido):
-                response = {"pedido": json.loads(data_manager.getPedido(id_pedido).toJSON())}
+                response = {"pedido": json.loads(gestorPedidos.getPedido(id_pedido).toJSON())}
                 return response, 200
             else:
                 response = {"mensaje": "No existe el pedido con id: " + id_pedido}
@@ -174,7 +182,6 @@ def estadoPedido(id_pedido):
                 estado = request.get_json()['estado']
                 pedido_json = json.loads(pedido.toJSON())
                 pedido_json['estado'] = estado
-                print(pedido_json)
                 gestorPedidos.modificarPedido(id_pedido, pedido_json)
                 response = {"mensaje": "El estado del pedido con id: " + id_pedido + "ha sido modificado con éxito"}
                 return response, 200
@@ -183,7 +190,6 @@ def estadoPedido(id_pedido):
                 return response, 404
         except ValueError as error:
             response = {"mensaje": str(error)}
-            print(response)
             return response, 400
 
 
