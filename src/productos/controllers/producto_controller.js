@@ -1,12 +1,15 @@
+const container = require ('../container/container.js')
 
-const Producto = require('../models/producto_model')
+// Inversión de dependencias
+// ---------------------------------------------------------------
+const db_handler = container.get('DBHandler')
+// ---------------------------------------------------------------
 
 
 // Obtener todos los productos
 exports.productsData = async function(req, res){
     try{
-        const products = await Producto.find()
-
+        const products = await db_handler.getProducts();
         res.status(200).send(products)
     }catch(error){
         return res.status(404).json({'mensaje':'Error:' + error});
@@ -17,7 +20,7 @@ exports.productsData = async function(req, res){
 // Obtener el producto identificado por su _id
 exports.productData = async function(req, res) {
     try{
-        const product = await Producto.findById(req.params._id)
+        const product = await db_handler.getProduct(req.params._id);
 
         if (product){
             return res.status(200).send(product);
@@ -41,7 +44,8 @@ exports.productsPriceRange = async function(req, res) {
         // Comprobar que son enteros
         if (!isNaN(precio_min) && !isNaN(precio_max)){
             // Obtener array de productos en ese rango de precio
-            const products = await Producto.find({precio: { $gt: precio_min, $lt: precio_max }})
+            const products = await db_handler.getProductsPriceRange(precio_min, precio_max);
+
             // Ha encontrado productos
             if (products.length > 0){
                 return res.status(200).send(products);
@@ -70,7 +74,8 @@ exports.productsCategories = async function(req, res) {
             categorias.push(categorias_split[i].toLowerCase());
         }
         // Obtener array de productos que estén en esas categorias
-        const products = await Producto.find({categorias: { $all: categorias}});
+        const products = await db_handler.getProductsWithCategories(categorias);
+
         // Ha encontrado productos
         if (products.length > 0){
             return res.status(200).send(products);
@@ -90,7 +95,8 @@ exports.productsText = async function(req, res) {
         // Obtener palabras
         const texto = (req.params.texto).split(",");
         // Obtener array de productos que contengan esas palabras
-        const products = await Producto.find({$text: { $search: texto.toString() }});
+        const products = await db_handler.getProductsWithText(texto);
+
         // Ha encontrado productos
         if (products.length > 0){
             return res.status(200).send(products);
@@ -108,7 +114,7 @@ exports.productsText = async function(req, res) {
 exports.insertProduct = async function(req, res){
     try{
         // Buscar si existe un producto con ese _id
-        const product = await Producto.findById(req.body._id)
+        const product = await db_handler.getProduct(req.body._id);
 
         // Si existe
         if (product){
@@ -116,23 +122,23 @@ exports.insertProduct = async function(req, res){
         }
         // Si no existe se puede insertar el producto
         else{
-            const new_product = new Producto({
+            const product_dict = {
                 _id: req.body._id,
                 nombre: req.body.nombre,
                 descripcion: req.body.descripcion,
                 categorias: req.body.categorias,
                 precio: req.body.precio,
                 stock: req.body.stock
-            })
+            }
 
             // Guardar el producto en la base de datos
-            const result = await new_product.save();
+            const result = await db_handler.insertProduct(product_dict);
 
             // Enviar estado 201 y enviar el producto como respuesta
             return res.status(201).send(result);
         }
     }catch(error){
-        return res.status(404).json({'mensaje':'Error: ' + error});
+        return res.status(400).json({'mensaje':'Error: ' + error});
     }
     
 };
@@ -140,17 +146,20 @@ exports.insertProduct = async function(req, res){
 // Editar producto
 exports.editProduct = async function(req, res){
     try{
-        const product = await Producto.findById(req.params._id);
+        // const product = await Producto.findById(req.params._id);
+        const product = await db_handler.getProduct(req.params._id);
 
         // Si existe el producto, se actualiza
         if(product){
-            const result = await product.updateOne({
-                                                    "nombre": req.body.nombre,
-                                                    "descripcion": req.body.descripcion,
-                                                    "categorias": req.body.categorias,
-                                                    "precio": req.body.precio,
-                                                    "stock": req.body.stock
-                                                });
+            const product_dict = {
+                                    "nombre": req.body.nombre,
+                                    "descripcion": req.body.descripcion,
+                                    "categorias": req.body.categorias,
+                                    "precio": req.body.precio,
+                                    "stock": req.body.stock
+                                };
+            const result = await db_handler.editProduct(product, product_dict);
+
             return res.status(200).send(result);
         }
         // No existe un producto con ese id
@@ -166,7 +175,7 @@ exports.editProduct = async function(req, res){
 // Eliminar producto identificado por su _id
 exports.deleteProduct = async function(req, res){
     try{
-        const product = await Producto.findByIdAndDelete(req.params._id)
+        const product = await db_handler.deleteProduct(req.params._id);
 
         // Si existe el producto se elimina
         if (product){
