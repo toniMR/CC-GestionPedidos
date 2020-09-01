@@ -26,37 +26,37 @@ class TestPedidosRest (unittest.TestCase):
 
 
     def test_01_insertar_pedido(self):
-        pedido_test =  {"id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"id": "MI200","unidades": 4},{"id": "LAM3","unidades": 7}]}
+        pedido_test =  {"pedido_id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"producto_id": "MI200","unidades": 4},{"producto_id": "LAM3","unidades": 7}]}
         result = self.app.post('pedidos', json=pedido_test)
         self.assertEqual(result.status_code, 201)
 
 
     def test_02_insertar_pedido_malformado(self):
-        pedido_test =  {"id": "PYTEST2", "dest": "Antonio", "dir": "c/testing", "prods": [{"id": "MI200","unids": 4},{"id": "LAM3","unids": 7}]}
+        pedido_test =  {"pedido_id": "PYTEST2", "dest": "Antonio", "dir": "c/testing", "prods": [{"producto_id": "MI200","unids": 4},{"producto_id": "LAM3","unids": 7}]}
         result = self.app.post('pedidos', json=pedido_test)
         self.assertEqual(result.status_code, 400)
 
 
     def test_03_insertar_pedido_existente(self):
-        pedido_test =  {"id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"id": "MI200","unidades": 4},{"id": "LAM3","unidades": 7}]}
+        pedido_test =  {"pedido_id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"producto_id": "MI200","unidades": 4},{"producto_id": "LAM3","unidades": 7}]}
         result = self.app.post('pedidos', json=pedido_test)
         self.assertEqual(result.status_code, 400)
 
 
     def test_04_modificar_pedido(self):
-        pedido_test =  {"id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"id": "MI200","unidades": 4},{"id": "LAM3","unidades": 8}]}
+        pedido_test =  {"pedido_id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"producto_id": "MI200","unidades": 4},{"producto_id": "LAM3","unidades": 8}]}
         result = self.app.put('pedidos/PYTEST', json=pedido_test)
         self.assertEqual(result.status_code, 200)
 
 
     def test_05_modificar_pedido_malformado(self):
-        pedido_test =  {"id": "PYTEST", "dest": "Antonio", "dir": "c/testing", "prods": [{"id": "MI200","uades": 4},{"id": "LAM3","idades": 8}]}
+        pedido_test =  {"pedido_id": "PYTEST", "dest": "Antonio", "dir": "c/testing", "prods": [{"producto_id": "MI200","uades": 4},{"producto_id": "LAM3","idades": 8}]}
         result = self.app.put('pedidos/PYTEST', json=pedido_test)
         self.assertEqual(result.status_code, 400)
 
 
     def test_06_modificar_pedido_inexistente(self):
-        pedido_test =  {"id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"id": "MI200","unidades": 4},{"id": "LAM3","unidades": 8}]}
+        pedido_test =  {"pedido_id": "PYTEST", "destinatario": "Antonio", "direccion": "c/testing", "productos": [{"producto_id": "MI200","unidades": 4},{"producto_id": "LAM3","unidades": 8}]}
         result = self.app.put('pedidos/PYTEST2', json=pedido_test)
         self.assertEqual(result.status_code, 404)
 

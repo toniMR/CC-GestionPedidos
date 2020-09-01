@@ -1,15 +1,13 @@
 from schema import Schema, And, Optional
 
-import json
-
 class PedidoSchema:
     def __init__(self):
-        self.schema = Schema({'id': And(str),
+        self.schema = Schema({'pedido_id': And(str),
                                 'destinatario': And(str),
                                 'direccion': And(str),
                                 Optional('estado'): And(str),
                                 'productos': [{
-                                                    'id': And(str),
+                                                    'producto_id': And(str),
                                                     'unidades': And(int)
                                             }]
                                 })

@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import psycopg2
-import json
 import sys, os.path
 
 # Añadir la ruta de los módulos 
@@ -46,7 +45,7 @@ class PgsqlDataManager:
                 try:
                     # Crear la tabla pedidos en la base de datos bd_name
                     self.cursor.execute("""CREATE TABLE pedidos (
-                                        id VARCHAR(255) PRIMARY KEY,
+                                        pedido_id VARCHAR(255) PRIMARY KEY,
                                         destinatario VARCHAR(255) NOT NULL,
                                         direccion VARCHAR(255) NOT NULL,
                                         estado VARCHAR(255) NOT NULL
@@ -65,10 +64,10 @@ class PgsqlDataManager:
                     # Crear la tabla productos_pedido en la base de datos db_name
                     self.cursor.execute("""
                                     CREATE TABLE productos_pedido (
-                                        id VARCHAR(255) NOT NULL,
-                                        id_pedido VARCHAR(255) REFERENCES pedidos(id),
+                                        producto_id VARCHAR(255) NOT NULL,
+                                        pedido_id VARCHAR(255) REFERENCES pedidos(pedido_id),
                                         unidades INT NOT NULL,
-                                        PRIMARY KEY (id, id_pedido)
+                                        PRIMARY KEY (producto_id, pedido_id)
                                     )
                                     """)
                 except (Exception, psycopg2.Error) as error :
@@ -82,7 +81,7 @@ class PgsqlDataManager:
     def getPedidos(self):
         try:
             # Obtener todos los id
-            self.cursor.execute ("SELECT id FROM pedidos")
+            self.cursor.execute ("SELECT pedido_id FROM pedidos")
 
             #Obtener resultados
             tmp = self.cursor.fetchall()
@@ -92,8 +91,8 @@ class PgsqlDataManager:
                 # i es el indice de cada fila
                 for j in range (0, len(tmp[i])):
                     # j es el indice de cada valor de la fila
-                    id_pedido = tmp[i][j]
-                    pedidos.append(self.getPedido(id_pedido))
+                    pedido_id = tmp[i][j]
+                    pedidos.append(self.getPedido(pedido_id))
 
             return pedidos
 
@@ -102,18 +101,18 @@ class PgsqlDataManager:
 
 
     # Obtener un pedido
-    def getPedido(self, id_pedido):
+    def getPedido(self, pedido_id):
         try:
             # Valores consulta
             valores = {
-                "id_pedido": id_pedido
+                "pedido_id": pedido_id
             }
 
             # Consulta
-            query = """SELECT id_pedido, destinatario, direccion, estado, productos_pedido.id, unidades 
+            query = """SELECT pedidos.pedido_id, destinatario, direccion, estado, productos_pedido.producto_id, unidades 
                        FROM pedidos
-                       LEFT OUTER JOIN productos_pedido ON pedidos.id = productos_pedido.id_pedido
-                       WHERE productos_pedido.id_pedido =  %(id_pedido)s
+                       LEFT OUTER JOIN productos_pedido ON pedidos.pedido_id = productos_pedido.pedido_id
+                       WHERE productos_pedido.pedido_id =  %(pedido_id)s
                        ;"""
 
             # Realizar consulta
@@ -140,19 +139,19 @@ class PgsqlDataManager:
                     pedido_dict["productos"].append(producto_dict)
                     producto_dict = {}
                         
-                pedido = Pedido(pedido_dict["id_pedido"], pedido_dict["destinatario"], pedido_dict["direccion"], pedido_dict["productos"], pedido_dict["estado"])
+                pedido = Pedido(pedido_dict["pedido_id"], pedido_dict["destinatario"], pedido_dict["direccion"], pedido_dict["productos"], pedido_dict["estado"])
             
             return(pedido)
             
         except (Exception, psycopg2.Error) as error :
-            raise ValueError ("Error: Error al obtener el pedido con id " + id_pedido + ": " + str(error))
+            raise ValueError ("Error: Error al obtener el pedido con id " + pedido_id + ": " + str(error))
 
 
     # Obtener productos de un pedido
-    def getProductosPedido (self, id_pedido):
+    def getProductosPedido (self, pedido_id):
         try:
             # Realizar consulta
-            self.cursor.execute ("SELECT id, unidades FROM productos_pedido WHERE id_pedido = %(id_pedido)s;", {"id_pedido": id_pedido})
+            self.cursor.execute ("SELECT producto_id, unidades FROM productos_pedido WHERE pedido_id = %(pedido_id)s;", {"pedido_id": pedido_id})
 
             # Obtener resultados
             tmp = self.cursor.fetchall()
@@ -172,13 +171,14 @@ class PgsqlDataManager:
 
             return productos
         except (Exception, psycopg2.Error) as error :
-            raise ValueError ("Error: Error al obtener los productos del pedido con id " + id_pedido + ": " + str(error))
+            raise ValueError ("Error: Error al obtener los productos del pedido con id " + pedido_id + ": " + str(error))
 
     
+    # Obtener todos los pedidos que tengan un estado concreto
     def getPedidosEstado (self, estado):
         try:
             # Obtener todos los id
-            self.cursor.execute ("SELECT id FROM pedidos WHERE estado = %(estado)s;", {"estado": estado})
+            self.cursor.execute ("SELECT pedido_id FROM pedidos WHERE estado = %(estado)s;", {"estado": estado})
 
             #Obtener resultados
             tmp = self.cursor.fetchall()
@@ -188,8 +188,8 @@ class PgsqlDataManager:
                 # i es el indice de cada fila
                 for j in range (0, len(tmp[i])):
                     # j es el indice de cada valor de la fila
-                    id_pedido = tmp[i][j]
-                    pedidos.append(self.getPedido(id_pedido))
+                    pedido_id = tmp[i][j]
+                    pedidos.append(self.getPedido(pedido_id))
 
             return pedidos
         except (Exception, psycopg2.Error) as error :
@@ -201,34 +201,33 @@ class PgsqlDataManager:
         msg = ""
         try:
             # Valores consulta
-            valores = json.loads(pedido.toJSON())
-
+            valores = pedido.toJSON()
             # Consulta 
             query = """
-                        INSERT INTO pedidos (id, destinatario, direccion, estado) VALUES (%(id)s, %(destinatario)s, %(direccion)s, %(estado)s);
+                        INSERT INTO pedidos (pedido_id, destinatario, direccion, estado) VALUES (%(pedido_id)s, %(destinatario)s, %(direccion)s, %(estado)s);
                     """
             for p in valores["productos"]:
-                query = query + "INSERT INTO productos_pedido (id, id_pedido, unidades) VALUES ('" + p["id"] + "', %(id)s," + str(p["unidades"]) + "); "
+                query = query + "INSERT INTO productos_pedido (producto_id, pedido_id, unidades) VALUES ('" + p["producto_id"] + "', %(pedido_id)s," + str(p["unidades"]) + "); "
                 
             # Ejecutar consulta 
             self.cursor.execute(query, valores)
         except (Exception, psycopg2.Error) as error:
-            raise ValueError ("Error: Error al insertar productos pedido: " + str(error))
+            raise ValueError ("Error: Error al insertar pedido: " + str(error))
 
 
     # Insertar productos a un pedido
-    def insertarProductosPedido(self, id_pedido, productos):
+    def insertarProductosPedido(self, pedido_id, productos):
         try:
             # Valores consulta
             valores = {
-                "id_pedido": id_pedido,
+                "pedido_id": pedido_id,
                 "productos": productos 
             }
 
             # Consulta 
             query = ""
             for p in valores["productos"]:
-                query = query + "INSERT INTO productos_pedido (id, id_pedido, unidades) VALUES ('" + p["id"] + "', %(id_pedido)s," + str(p["unidades"]) + "); "
+                query = query + "INSERT INTO productos_pedido (producto_id, pedido_id, unidades) VALUES ('" + p["producto_id"] + "', %(pedido_id)s," + str(p["unidades"]) + "); "
                 
             # Ejecutar consulta 
             self.cursor.execute(query, valores)
@@ -238,11 +237,11 @@ class PgsqlDataManager:
 
 
     # Modificar un pedido
-    def modificarPedido(self, id_pedido, pedido):
+    def modificarPedido(self, pedido_id, pedido):
         try:
             # Valores consulta
-            valores = json.loads(pedido.toJSON())
-            valores['id_pedido'] = id_pedido
+            valores = pedido.toJSON()
+            valores['pedido_id'] = pedido_id
 
             # Consulta 
             query = """
@@ -251,66 +250,66 @@ class PgsqlDataManager:
                             direccion = %(direccion)s,
                             estado = %(estado)s
                         WHERE
-                            id = %(id_pedido)s;
+                            pedido_id = %(pedido_id)s;
                     """
 
             # Ejecutar consulta 
             self.cursor.execute(query, valores)
 
             # Modificar productos del pedido
-            self.modificarProductosPedido(id_pedido, pedido.getProductos())
+            self.modificarProductosPedido(pedido_id, pedido.getProductos())
 
         except (Exception, psycopg2.Error) as error :
             raise ValueError ("Error al modificar pedido: " + str(error))
 
 
     # Modificar los productos de un pedido
-    def modificarProductosPedido(self, id_pedido, productos):
+    def modificarProductosPedido(self, pedido_id, productos):
         try:
-            self.eliminarProductosPedido(id_pedido)
-            self.insertarProductosPedido(id_pedido, productos)
+            self.eliminarProductosPedido(pedido_id)
+            self.insertarProductosPedido(pedido_id, productos)
 
         except (Exception, psycopg2.Error) as error :
             raise ValueError ("Error al modificar productos del pedido: " + str(error))
 
     
     # Eliminar pedido
-    def eliminarPedido(self, id_pedido):
+    def eliminarPedido(self, pedido_id):
         try:
-            self.eliminarProductosPedido(id_pedido)
+            self.eliminarProductosPedido(pedido_id)
 
             valores = {
-                "id_pedido": id_pedido
+                "pedido_id": pedido_id
             }
 
             # Consulta 
             query = """DELETE FROM pedidos
-                    WHERE id = %(id_pedido)s"""
+                    WHERE pedido_id = %(pedido_id)s"""
                 
             # Ejecutar consulta 
             self.cursor.execute(query, valores)
 
         except (Exception, psycopg2.Error) as error:
-            raise ValueError ("Error: Error al borrar el pedido con id " + id_pedido + ": " + str(error))
+            raise ValueError ("Error: Error al borrar el pedido con id " + pedido_id + ": " + str(error))
 
 
     # Eliminar productos de un pedido
-    def eliminarProductosPedido(self, id_pedido):
+    def eliminarProductosPedido(self, pedido_id):
         try:
             # Valores consulta
             valores = {
-                "id_pedido": id_pedido
+                "pedido_id": pedido_id
             }
 
             # Consulta 
             query = """DELETE FROM productos_pedido
-                    WHERE id_pedido = %(id_pedido)s"""
+                    WHERE pedido_id = %(pedido_id)s"""
                 
             # Ejecutar consulta 
             self.cursor.execute(query, valores)
 
         except (Exception, psycopg2.Error) as error :
-            raise ValueError ("Error: Error al borrar los productos del pedido con id " + id_pedido + ": " + str(error))
+            raise ValueError ("Error: Error al borrar los productos del pedido con id " + pedido_id + ": " + str(error))
 
 
     # Cerrar conexión

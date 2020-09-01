@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from flask import Flask, jsonify, request
-import json
-import sys, os.path
+from flask import Flask, request
 from os import environ
 from container import Container
 
@@ -55,12 +53,8 @@ def pedidos():
     if request.method == 'GET':
         try:
             pedidos = gestorPedidos.getPedidos()
-            pedidos_json = []
             if len(pedidos) > 0:
-                for p in pedidos:
-                    pedidos_json.append(json.loads(p.toJSON()))
-
-                response = {"pedidos": pedidos_json}
+                response = {"pedidos": pedidos}
                 return response, 200
             else:
                 response = {"mensaje": "No existen pedidos"}
@@ -72,8 +66,7 @@ def pedidos():
     # Insertar un pedido nuevo
     elif request.method == 'POST':
         try:
-            pedido_json = request.get_json()
-            gestorPedidos.insertarPedido(pedido_json)
+            gestorPedidos.insertarPedido(request.get_json())
             response = {"mensaje": "Pedido insertado con éxito"}
             return response, 201
         except ValueError as error:
@@ -82,19 +75,19 @@ def pedidos():
 
 
 # Consultas genéricas con un pedido determinado
-@app.route('/pedidos/<id_pedido>', methods = ['GET', 'PUT', 'DELETE'])
-def pedido(id_pedido):
+@app.route('/pedidos/<pedido_id>', methods = ['GET', 'PUT', 'DELETE'])
+def pedido(pedido_id):
     response = ""
 
     # Obtener un pedido
     if request.method == 'GET':
         try:
-            pedido = gestorPedidos.getPedido(id_pedido)
+            pedido = gestorPedidos.getPedido(pedido_id)
             if(pedido):
-                response = {"pedido": json.loads(gestorPedidos.getPedido(id_pedido).toJSON())}
+                response = {"pedido": gestorPedidos.getPedido(pedido_id).toJSON()}
                 return response, 200
             else:
-                response = {"mensaje": "No existe el pedido con id: " + id_pedido}
+                response = {"mensaje": "No existe el pedido con id: " + pedido_id}
                 return response, 404
         except ValueError as error:
             response = {"mensaje": str(error)}
@@ -103,14 +96,14 @@ def pedido(id_pedido):
     # Modificar un pedido
     if request.method == 'PUT':
         try:
-            existe = gestorPedidos.getPedido(id_pedido)
+            existe = gestorPedidos.getPedido(pedido_id)
             if existe:
                 pedido_json = request.get_json()
-                gestorPedidos.modificarPedido(id_pedido, pedido_json)
+                gestorPedidos.modificarPedido(pedido_id, pedido_json)
                 response = {"mensaje": "Pedido modificado con éxito"}
                 return response, 200
             else:
-                response = {"mensaje": "No existe un pedido con id: " + id_pedido}
+                response = {"mensaje": "No existe un pedido con id: " + pedido_id}
                 return response, 404
         except ValueError as error:
             response = {"mensaje": str(error)}
@@ -119,13 +112,13 @@ def pedido(id_pedido):
     # Borrar un pedido
     elif request.method == 'DELETE':
         try:
-            pedido = gestorPedidos.getPedido(id_pedido)
+            pedido = gestorPedidos.getPedido(pedido_id)
             if(pedido):
-                gestorPedidos.borrarPedido(id_pedido)
-                response = {"mensaje": "El pedido con id: " + id_pedido + " se ha borrado exitosamente."}
+                gestorPedidos.borrarPedido(pedido_id)
+                response = {"mensaje": "El pedido con id: " + pedido_id + " se ha borrado exitosamente."}
                 return response, 200
             else:
-                response = {"mensaje": "No existe el pedido con id: " + id_pedido}
+                response = {"mensaje": "No existe el pedido con id: " + pedido_id}
                 return response, 404
         except ValueError as error:
             response = {"mensaje": str(error)}
@@ -142,10 +135,7 @@ def pedidosEstado(estado):
         try:
             pedidos = gestorPedidos.getPedidosEstado(estado)
             if len(pedidos) > 0:
-                pedidos_json = []
-                for p in pedidos:
-                    pedidos_json.append(json.loads(p.toJSON()))
-                response = {"pedidos": pedidos_json}
+                response = {"pedidos": pedidos}
                 return response, 200
             else:
                 response = {"mensaje": "No existe ningún pedido con estado " + estado}
@@ -156,19 +146,19 @@ def pedidosEstado(estado):
 
 
 # Consultas sobre el estado de un pedido determinado
-@app.route('/pedidos/<id_pedido>/estado', methods = ['GET', 'PUT'])
-def estadoPedido(id_pedido):
+@app.route('/pedidos/<pedido_id>/estado', methods = ['GET', 'PUT'])
+def estadoPedido(pedido_id):
     response = ""
 
     # Obtener estado de un pedido determinado
     if request.method == 'GET':
         try:
-            pedido = gestorPedidos.getPedido(id_pedido)
+            pedido = gestorPedidos.getPedido(pedido_id)
             if(pedido):
                 response = {"estado": pedido.getEstado()}
                 return response, 200
             else:
-                response = {"mensaje": "No existe el pedido con id: " + id_pedido}
+                response = {"mensaje": "No existe el pedido con id: " + pedido_id}
                 return response, 404
         except ValueError as error:
             response = {"mensaje": str(error)}
@@ -177,16 +167,14 @@ def estadoPedido(id_pedido):
     # Obtener estado de un pedido determinado
     if request.method == 'PUT':
         try:
-            pedido = gestorPedidos.getPedido(id_pedido)
+            pedido = gestorPedidos.getPedido(pedido_id)
             if(pedido):
-                estado = request.get_json()['estado']
-                pedido_json = json.loads(pedido.toJSON())
-                pedido_json['estado'] = estado
-                gestorPedidos.modificarPedido(id_pedido, pedido_json)
-                response = {"mensaje": "El estado del pedido con id: " + id_pedido + "ha sido modificado con éxito"}
+                pedido.setEstado(request.get_json()['estado'])
+                gestorPedidos.modificarPedido(pedido_id, pedido.toJSON())
+                response = {"mensaje": "El estado del pedido con id: " + pedido_id + "ha sido modificado con éxito"}
                 return response, 200
             else:
-                response = {"mensaje": "No existe el pedido con id: " + id_pedido}
+                response = {"mensaje": "No existe el pedido con id: " + pedido_id}
                 return response, 404
         except ValueError as error:
             response = {"mensaje": str(error)}

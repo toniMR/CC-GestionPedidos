@@ -4,15 +4,15 @@
 import json
 
 class Pedido:
-    def __init__(self, id, destinatario, direccion, productos, estado="Unprocessed"):
-        self.id = id
+    def __init__(self, pedido_id, destinatario, direccion, productos, estado="Unprocessed"):
+        self.pedido_id = pedido_id
         self.destinatario = destinatario
         self.direccion = direccion
         self.productos = productos
         self.estado = estado
 
     def getID(self):
-        return self.id
+        return self.pedido_id
 
     def getDestinatario(self):
         return self.destinatario
@@ -40,20 +40,20 @@ class Pedido:
 
     def toJSON(self):
         p = {
-            "id": self.id,
+            "pedido_id": self.pedido_id,
             "destinatario": self.destinatario,
             "direccion": self.direccion,
             "estado": self.estado,
             "productos": self.productos
         }
-        return json.dumps(p)
+        return json.loads(json.dumps(p))
 
     def toString(self):
         productos_str = ""
         for p in self.productos:
-            productos_str = productos_str + "id: " + p["id"] + " unidades: " + str(p["unidades"]) + ", "
+            productos_str = productos_str + "producto_id: " + p["producto_id"] + " unidades: " + str(p["unidades"]) + ", "
 
-        msg = "ID: " + self.id + "\nDestinatario: " + self.destinatario + "\nDirección: " + self.direccion + "\nEstado: " + self.estado + "\nProductos: " + productos_str
+        msg = "ID: " + self.pedido_id + "\nDestinatario: " + self.destinatario + "\nDirección: " + self.direccion + "\nEstado: " + self.estado + "\nProductos: " + productos_str
         return msg
         
             
