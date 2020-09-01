@@ -1,6 +1,10 @@
 # Lenguaje de programación
 language: node_js
 
+# Usar mongoDB
+services:
+  - mongodb
+
 # Seleccionar versiones a testear
 node_js:
   - "v8.17.0"

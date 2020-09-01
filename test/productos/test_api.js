@@ -35,7 +35,13 @@ describe('Test API', function(){
             supertest(app.app)
                 .post('/productos')
                 .send(producto)
-                .expect(201, done)
+                .expect(201)
+                .end(function(err, res){
+                    if(err){done(err)}
+                    else{
+                        done();
+                    }
+                })
         });
 
         it('Debe responder que ya existe un producto con ese id', function(done){
