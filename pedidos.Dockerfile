@@ -8,8 +8,8 @@ ENV DB_HOST ${DB_HOST}
 ENV DB_PORT ${DB_PORT}
 ENV DB_USERNAME ${DB_USERNAME}
 ENV DB_PASSWORD ${DB_PASSWORD}
-ENV DB_NAME $DB_NAME
-ENV GUNI_HOST $GUNI_HOST
+ENV DB_NAME ${DB_NAME}
+ENV GUNI_HOST ${GUNI_HOST}
 ENV GUNI_PORT ${GUNI_PORT}
 
 
@@ -34,11 +34,7 @@ WORKDIR /home/nonrootuser/cc-gestionProductos
 
 # Copiar archivos
 COPY setup.py ./
-COPY src/pedidos/pedido.py src/pedidos/
-COPY src/pedidos/gestorPedidos.py src/pedidos/
-COPY src/pedidos/pedido_schema.py src/pedidos/
-COPY src/pedidos/data_managers/* src/pedidos/data_managers/
-COPY src/pedidos/pedidos_rest.py ./src/pedidos/
+COPY src/pedidos src/pedidos
 
 # Instalar dependencias
 # Hay que instalar setuptools  y wheel porque no está instalado por defecto
@@ -58,5 +54,5 @@ CMD /etc/init.d/postgresql start \
     && createdb -O ${DB_USERNAME} ${DB_NAME} \
     # No puedo utilizar python3 setup.py start porque me da error
     # python3 setup.py start -w 8 --host=${GUNI_HOST} -p {GUNI_PORT}
-    && cd src/pedidos \
-    && gunicorn -w ${WORKERS} -b ${GUNI_HOST}:${GUNI_PORT} pedidos_rest:app
+    && cd src \
+    && gunicorn -w ${WORKERS} -b ${GUNI_HOST}:${GUNI_PORT} 'pedidos:create_app()'

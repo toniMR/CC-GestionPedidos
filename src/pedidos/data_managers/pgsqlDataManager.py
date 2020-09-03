@@ -146,33 +146,6 @@ class PgsqlDataManager:
         except (Exception, psycopg2.Error) as error :
             raise ValueError ("Error: Error al obtener el pedido con id " + pedido_id + ": " + str(error))
 
-
-    # Obtener productos de un pedido
-    def getProductosPedido (self, pedido_id):
-        try:
-            # Realizar consulta
-            self.cursor.execute ("SELECT producto_id, unidades FROM productos_pedido WHERE pedido_id = %(pedido_id)s;", {"pedido_id": pedido_id})
-
-            # Obtener resultados
-            tmp = self.cursor.fetchall()
-
-            productos = []
-            if len(tmp) != 0:
-                # Crear diccionario con los valores devueltos
-                producto_dict = {}
-                # Recorrer valores respuesta
-                for i in range(0, len(tmp)):
-                    # i es el indice de cada fila
-                    for j in range (0, len(tmp[i])):
-                        # j es el indice de cada valor de la fila
-                        producto_dict[self.cursor.description[j][0]] = tmp[i][j]
-                    productos.append(producto_dict)
-                    producto_dict = {}
-
-            return productos
-        except (Exception, psycopg2.Error) as error :
-            raise ValueError ("Error: Error al obtener los productos del pedido con id " + pedido_id + ": " + str(error))
-
     
     # Obtener todos los pedidos que tengan un estado concreto
     def getPedidosEstado (self, estado):

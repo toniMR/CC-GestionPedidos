@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from pedido import Pedido
-from pedido_schema import PedidoSchema
+from .pedido import Pedido
+from .pedido_schema import PedidoSchema
 
 
 class GestorPedidos:
@@ -11,6 +11,7 @@ class GestorPedidos:
         self.pedido_schema = PedidoSchema()
         self.data_manager = data_manager
         self.logger = logger
+        self.connect()
 
     def connect(self):
         self.data_manager.connect()

@@ -1,54 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from flask import Flask, request
-from os import environ
-from container import Container
+from flask import Blueprint, request, current_app
 
-app = Flask(__name__)
-
-
-# Establecer valores para la conexión a la BD.
-username = "username"
-if "DB_USERNAME" in environ and environ['DB_USERNAME'] != "":
-    username = environ['DB_USERNAME']   
-
-password = "password"
-if "DB_PASSWORD" in environ and environ['DB_PASSWORD'] != "":
-    password = environ['DB_PASSWORD']
-
-host = "127.0.0.1"
-if "DB_HOST" in environ and environ['DB_HOST'] != "":
-    host = environ['DB_HOST']
-
-port = "5432"
-if "DB_PORT" in environ != "" and environ['DB_PORT'] != "":
-    port = environ['DB_PORT']
-
-db_name = "ms_pedidos"
-if "DB_NAME" in environ and environ['DB_NAME'] != "":
-    db_name = environ['DB_NAME']
-    
-
-# Inyección de dependencias
-# ----------------------------------------------------------
-container = Container(config={
-                                'username': username,
-                                'password': password,
-                                'host': host,
-                                'port': port,
-                                'db_name': db_name
-                            })
-gestorPedidos = container.gestor_pedidos()
-gestorPedidos.connect()
-# ----------------------------------------------------------
+api = Blueprint('pedidos', __name__, url_prefix='/')
 
 
 # Consultas genéricas con pedidos
-@app.route('/pedidos', methods = ['GET', 'POST'])
+@api.route('/pedidos', methods = ['GET', 'POST'])
 def pedidos():
+    gestorPedidos = current_app.container.gestor_pedidos()
     response = ""
-
     # Devuelve los pedidos existentes
     if request.method == 'GET':
         try:
@@ -75,8 +37,9 @@ def pedidos():
 
 
 # Consultas genéricas con un pedido determinado
-@app.route('/pedidos/<pedido_id>', methods = ['GET', 'PUT', 'DELETE'])
+@api.route('/pedidos/<pedido_id>', methods = ['GET', 'PUT', 'DELETE'])
 def pedido(pedido_id):
+    gestorPedidos = current_app.container.gestor_pedidos()
     response = ""
 
     # Obtener un pedido
@@ -126,8 +89,9 @@ def pedido(pedido_id):
 
 
 # Consultas con el estado los pedidos
-@app.route('/pedidos/estado/<estado>', methods = ['GET'])
+@api.route('/pedidos/estado/<estado>', methods = ['GET'])
 def pedidosEstado(estado):
+    gestorPedidos = current_app.container.gestor_pedidos()
     response = ""
 
     # Devuelve el estado del pedido indicado
@@ -146,8 +110,9 @@ def pedidosEstado(estado):
 
 
 # Consultas sobre el estado de un pedido determinado
-@app.route('/pedidos/<pedido_id>/estado', methods = ['GET', 'PUT'])
+@api.route('/pedidos/<pedido_id>/estado', methods = ['GET', 'PUT'])
 def estadoPedido(pedido_id):
+    gestorPedidos = current_app.container.gestor_pedidos()
     response = ""
 
     # Obtener estado de un pedido determinado
@@ -180,4 +145,4 @@ def estadoPedido(pedido_id):
             response = {"mensaje": str(error)}
             return response, 400
 
-
+            

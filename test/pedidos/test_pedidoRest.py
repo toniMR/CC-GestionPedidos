@@ -5,22 +5,23 @@ import unittest
 import json
 import sys, os.path
 
-# Añadir la ruta de los módulos 
+# Añadir la ruta de los módulos
 src_path = (os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
-+ '/src/pedidos/')
++ '/src/')
 sys.path.append(src_path)
+import pedidos
 
-from pedidos_rest import app
 
-class TestPedidosRest (unittest.TestCase):
+class TestPedidosRestBase (unittest.TestCase):
+    __test__ = False
 
-    
     def setUp(self):
-        self.app = app.test_client()
-        self.app.testing = True
+        self.flask_app = pedidos.create_app()       
+        self.app = self.flask_app.test_client()
 
 
     def test_00_obtener_pedidos_vacio(self):
+        print("EOOOOOOO")
         result = self.app.get('pedidos')
         self.assertEqual(result.status_code, 404)
 
@@ -106,4 +107,12 @@ class TestPedidosRest (unittest.TestCase):
         result = self.app.delete('pedidos/PYTEST2')
         self.assertEqual(result.status_code, 404)
 
+
+
+class TestPedidosRest_Psycopg2DataManager (TestPedidosRestBase):
+    __test__ = True
+
+    def setUp(self):
+        TestPedidosRestBase.setUp(self)
+        self.flask_app.container.config.data_handler.override('psycopg2')
 

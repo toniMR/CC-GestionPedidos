@@ -40,7 +40,7 @@ class Start(Command):
             assert self.workers.isdigit(), ('port debe ser un número')
 
     def run(self):
-        command = 'cd ./src/pedidos/ && gunicorn -w ' + self.workers + ' -b ' + self.host + ":" + self.port + " pedidos_rest:app"
+        command = 'cd ./src && gunicorn -w ' + self.workers + ' -b ' + self.host + ":" + self.port + " 'pedidos:create_app()'"
         subprocess.call(command, shell=True)
 
 setup(
