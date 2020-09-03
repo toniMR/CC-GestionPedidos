@@ -89,8 +89,8 @@ setup(
         'psycopg2',
         'schema',
         'gunicorn',
-        'dependency-injector'
+        'dependency-injector',
+        'sqlalchemy'
     ],    
  )
-
 

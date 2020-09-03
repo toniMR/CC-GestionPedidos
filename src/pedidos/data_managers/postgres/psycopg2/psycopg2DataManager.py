@@ -5,12 +5,12 @@ import psycopg2
 import sys, os.path
 
 # Añadir la ruta de los módulos 
-src_path = (os.path.abspath(os.path.join(os.path.dirname(__file__), './..')))
+src_path = (os.path.abspath(os.path.join(os.path.dirname(__file__), './../../../')))
 sys.path.append(src_path)
 from pedido import Pedido
 
 
-class PgsqlDataManager:
+class Psycopg2DataManager:
 
     def __init__(self, user, password, host, port, db_name):
         self.user = user

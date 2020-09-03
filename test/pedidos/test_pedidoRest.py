@@ -21,7 +21,6 @@ class TestPedidosRestBase (unittest.TestCase):
 
 
     def test_00_obtener_pedidos_vacio(self):
-        print("EOOOOOOO")
         result = self.app.get('pedidos')
         self.assertEqual(result.status_code, 404)
 
@@ -116,3 +115,12 @@ class TestPedidosRest_Psycopg2DataManager (TestPedidosRestBase):
         TestPedidosRestBase.setUp(self)
         self.flask_app.container.config.data_handler.override('psycopg2')
 
+
+class TestPedidosRest_SqlalchemyDataManager (TestPedidosRestBase):
+    __test__ = True
+
+    def setUp(self):
+        TestPedidosRestBase.setUp(self)
+        self.flask_app.container.config.data_handler.override('sqlalchemy')
+
+        
