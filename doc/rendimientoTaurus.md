@@ -100,12 +100,12 @@ Como se puede observar se obtiene una media de 94.75 peticiones por segundo y el
 Como se puede observar se obtiene una media de 3667.65 peticiones por segundo y el tiempo de respuesta medio es de 2ms. Ha
  habido un incremento importante en cuanto a las peticiones por segundo.
 
-### Microservicio de Productos con 8 workers en Docker
+### Microservicio de Productos con 2 workers en Docker
 
-![terminal-productos-8workers-docker](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-8workers.png)
-![bzm-productos-8workers-docker](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-8workers.png)
+![terminal-productos-2workers-docker](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-productos-2workers-docker.png)
+![bzm-productos-2workers-docker](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-productos-2workers-docker.png)
 
-Como se puede observar se obtiene una media de 2820.48 peticiones por segundo y el tiempo de respuesta medio es de 3ms. No ha habido una gran diferencia respecto con 
+Como se puede observar se obtiene una media de 2820.48 peticiones por segundo y el tiempo de respuesta medio es de 3ms. No ha habido una gran diferencia respecto con
 la prueba realizada con el despliegue en local sin Docker y con el mismo número de workers funcionando.
 
 ### Microservicio de Pedidos con 2 workers y psycopg2
@@ -121,7 +121,7 @@ Como se puede observar se obtiene una media de 1354.97 peticiones por segundo y 
 ![bzm-pedidos-2workers-sqlalchemy](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-pedidos-2workers-sqlalchemy.png)
 
 Como se puede comprobar se obtiene un rendimiento menor que con el manejador de Base de Datos implementado con psycopg2. En este caso ha disminuido el rendimiento
-de 1354.97 peticiones por segundo y un tiempo e respuesta medio de 6ms a 660.23 y un tiempo de respuesta medio de 13 ms.
+de 1354.97 peticiones por segundo y un tiempo de respuesta medio de 6ms a 660.23 y un tiempo de respuesta medio de 13 ms.
 
 ### Microservicio de Pedidos con 8 workers y psycopg2
 
@@ -144,16 +144,34 @@ de 2498.37 peticiones por segundo y un tiempo e respuesta medio de 3ms a 1207.93
 ![terminal-pedidos-2workers-psycopg2-docker](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/terminal-pedidos-2workers-psycopg2-docker.png)
 ![bzm-pedidos-2workers-psycopg2-docker](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/taurus/bzm-pedidos-2workers-psycopg2-docker.png)
 
-Como se puede observar se obtiene una media de 1354.97 peticiones por segundo y el tiempo de respuesta medio es de 6ms. Al igual que en la prueba con 2 workers y psycopg2
-realizada en local sin utilizar Docker.
+Como se puede observar se obtiene una media de 1439 peticiones por segundo y el tiempo de respuesta medio es de 6ms. Prácticamente el mismo rendimiento que el obtenido en la prueba con 2 workers y psycopg2 realizada en local sin utilizar Docker.
 
-### Resultados generales
+### Recopilación de resultados
+
+| Microservicio           | Workers | Localizacion BD | Avg. Throughput | Avg. Response Time | Docker  |
+|-------------------------|---------|-----------------|-----------------|--------------------|---------|
+| Productos               |    2    |    remota       |       95.91     |         95ms       |   No    |
+| Productos               |    2    |    local        |      2466.15    |         3ms        |   No    |
+| Productos               |    2    |    local        |      2820.48    |         3ms        |   Si    |
+| Productos               |    8    |    remota       |       94.75     |         95ms       |   No    |
+| Productos               |    8    |    local        |      3667.65    |         2ms        |   No    |
+| Pedidos (psycopg2)      |    2    |    local        |      1354.97    |         6ms        |   No    |
+| Pedidos (sqlalchemy)    |    2    |    local        |      660.23     |         13ms       |   No    |
+| Pedidos (psycopg2)      |    2    |    local        |      1439.09    |         6ms        |   Si    |
+| Pedidos (psycopg2)      |    8    |    local        |      2498.37    |         3ms        |   No    |
+| Pedidos (sqlalchemy)    |    8    |    local        |      1207.93    |         7ms        |   No    |
+
+### Conclusiones
 
 Ambos microservicios han superado las 1000 peticiones por segundo con 10 usuarios concurrentes.
 
 - **Microservicio de productos:** 3667.65 peticiones/s y el tiempo de respuesta medio de 2ms con 8 workers.
 - **Microservicio de pedidos:** 2498.37 peticiones/s y el tiempo de respuesta medio de 3ms con 8 workers.
 
-Se ha observado que el uso de la Base de Datos remota en Mongo Atlas es un factor muy limitante, pues no ha podido pasar
+- Se ha observado que el uso de la Base de Datos remota en Mongo Atlas es un factor muy limitante, pues no ha podido pasar
  de las 100 peticiones por segundo tanto con 2 workers como con 8, mientras que en local y con 2 workers ya se obtiene 2400 peticiones por segundo para
- el microservicio de productos.
+ el microservicio de productos.  
+
+- También se ha podido observar que el manejador de datos creado con psycopg2 es alrededor del doble de veloz que el manejador de datos creado con sqlalchemy.  
+
+- Otra cosa que hemos podido observar es que el uso de Docker mantiene las prestaciones que obtenemos al utilizar los microservicios sin Docker.  
