@@ -10,16 +10,16 @@
     scenarios:
         pedidos-rest-test:
 
-            # Deshabilitar cache
-            store-cache: false
-            # Definir peticiones
-            requests:
-            
-            - url: http://localhost:8000/pedidos
-              method: GET
+          # Deshabilitar cache
+          store-cache: false
+          # Definir peticiones
+          requests:
+          
+          - url: http://localhost:8000/pedidos
+            method: GET
 
-            - url: http://localhost:8000/pedidos/TAURUS
-              method: GET 
+          - url: http://localhost:8000/pedidos/TAURUS
+            method: GET 
 
         productos-rest-test:
 
