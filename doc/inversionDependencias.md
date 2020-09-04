@@ -12,7 +12,9 @@ Por ejemplo, en mi caso, en el contenedor he establecido un Selector, de forma q
 
 El único requisito para que esto funcione es que todos los manejadores de bases de datos deben tener los mismos métodos.  
 
-Además simplifica el trabajo a la hora de realizar tests, ya que con tan solo sobreescribir la configuración del contenedor ya estaríamos usando otras dependencias. [Ejemplo](/test/pedidos/test_pedidoRest.py#L124)
+Además simplifica el trabajo a la hora de realizar tests, ya que con tan solo sobreescribir la configuración del contenedor ya estaríamos usando otras dependencias. [Ejemplo](/test/pedidos/test_pedidoRest.py#L124)  
+
+A la hora de establecer las dependencias en el Container hago uso de [Singleton provider](http://python-dependency-injector.ets-labs.org/providers/singleton.html) para que siempre se devuelva la misma instancia de la dependencia. Si s hiciera con [Factory provider](http://python-dependency-injector.ets-labs.org/providers/factory.html) se crearía una nueva instancia cada vez que se llamara a la dependencia. En mi caso, al usar Factory provider, el rendimiento disminuyó de alrededor de las 2300 peticiones por segundo a alrededor de 300.
 
 ## Microservicio de Productos
 

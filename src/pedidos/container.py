@@ -35,7 +35,6 @@ class Container(containers.DeclarativeContainer):
     # Servicios
     gestor_pedidos = providers.Selector(
         config.data_handler,
-        psycopg2 = providers.Factory(GestorPedidos, psycopg2_data_manager, logger),
-        sqlalchemy = providers.Factory(GestorPedidos, sqlalchemy_orm_data_manager, logger),
-    )
-
+        psycopg2 = providers.Singleton(GestorPedidos, psycopg2_data_manager, logger),
+        sqlalchemy = providers.Singleton(GestorPedidos, sqlalchemy_orm_data_manager, logger),
+    )    

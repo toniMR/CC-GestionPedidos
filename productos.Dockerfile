@@ -26,10 +26,7 @@ RUN adduser -D nonrootuser \
     
 # Copiar exclusivamente los ficheros necesarios
 COPY package*.json ./
-COPY src/productos/controllers src/productos/controllers
-COPY src/productos/models src/productos/models/
-COPY src/productos/routes src/productos/routes
-COPY src/productos/productos-rest.js src/productos/
+COPY src/productos src/productos
 
 # Instalar dependecias
 # Al haber usado RUN, se instalarán al construir la imagen
