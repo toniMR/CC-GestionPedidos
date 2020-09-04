@@ -41,7 +41,7 @@ Una vez se han creado estos archivos .env. Ejecutar desde **./provision/local/**
 
 **Crear la máquina en Azure:**
 
-Primero hay que exportar las siguientes variables de entorno, como se explica en [Provisionar máquinas de Azure con Vagrant](doc/azure.md):
+Primero hay que exportar las siguientes variables de entorno, como se explica en [Provisionar máquinas de Azure con Vagrant](/doc/azure.md):
 
 ```bash
     export AZURE_TENANT_ID=<tenant>
@@ -56,5 +56,5 @@ Después, desde la ruta **./provision/azure/**:
     vagrant up
 ```
 
-Entre en la sección [Provisionamiento de Máquinas Virtuales](doc/provisionamiento.md) para ver más documentación sobre como
+Entre en la sección [Provisionamiento de Máquinas Virtuales](/doc/provisionamiento.md) para ver más documentación sobre como
 se ha realizado el provisionamiento de máquinas virtuales.
