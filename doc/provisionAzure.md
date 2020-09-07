@@ -1,4 +1,4 @@
-# Vagrant en Azure
+# Provisión en Azure
 
 ## Requisitos
 
@@ -37,7 +37,7 @@ export AZURE_SUBSCRIPTION_ID=<id>
 
 [Vagrant Azure Provider](https://github.com/Azure/vagrant-azure)
 
-## Vagrantafile
+## Vagrant en Azure
 
 Para configurar el Vagrantfile necesitamos saber varias cosas:
 
