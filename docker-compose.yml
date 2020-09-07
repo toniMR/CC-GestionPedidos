@@ -1,10 +1,11 @@
 # Indicamos la versión de docker-compose que se va a usar en el fichero
-version: '3'
+version: "2"
 
 # Crear redes
 networks:
     productos_backend:
     pedidos_backend:
+    gateway: 
 
 
 # Se incarán los contenedores que se van a desplegar
@@ -20,6 +21,7 @@ services:
             - POSTGRES_DB=${POSTGRES_DB}
         networks:
             - pedidos_backend
+
 
     # Microservicio pedidos
     pedidos:
@@ -44,9 +46,7 @@ services:
 
         networks:
             - pedidos_backend
-
-        ports: 
-            - 8000:8000
+            - gateway
 
 
 
@@ -56,6 +56,8 @@ services:
         container_name: mongo
         networks:
             - productos_backend
+
+            
 
     # Microservicio productos
     productos:
@@ -70,6 +72,22 @@ services:
 
         networks:
             - productos_backend
+            - gateway
 
-        ports: 
-            - 8080:8080
+
+
+    nginx:
+        image: nginx
+        container_name: nginx
+
+        depends_on: 
+            - productos
+            - pedidos
+
+        volumes:
+            - ./api_gateway/nginx/nginx.conf:/etc/nginx/nginx.conf
+
+        networks:
+            - gateway
+        ports:
+            - 80:80
