@@ -1,15 +1,15 @@
 # Provisionamiento de Máquinas Virtuales
 
-Se creará una máquina en local y otra en Azure. Ambas contendrán las 2 imagenes docker creadas. La imagen docker
-de los pedidos y la imagen docker de los productos.
+Se creará una máquina en local, otra en Azure y otra en Google Cloud. 
 
 ## Vagrant
 
 He utilizado Vagrant para la creación de las máquinas virtuales. En total he creado
-dos vagrantfiles:
+tres vagrantfiles:
 
 - Máquina virtual en local.
 - Máquina virtual en Azure.
+- Máquina virtual en Google Cloud.
 
 Para la máquina virtual en local he escogido como imagen 'ubuntu/bionic64' porque
 con las de Ubuntu Server, aunque en un principio me funcionaba, luego obtenía errores.
@@ -21,68 +21,91 @@ Probé con las siguientes entre otras:
 - [jeffevesque/trusty64](https://app.vagrantup.com/jeff1evesque/boxes/trusty64)
 - [aspyatkin/ubuntu-18.04-server](https://app.vagrantup.com/jeff1evesque/boxes/trusty64)
 
-A la máquina local le he dado 3 cpus y 4 GB de RAM mientras que a la máquina de Azure
+A la máquina local le he dado 4 cpus y 4 GB de RAM mientras que a la máquina de Azure
 le he dado 4cpus y 8 gb de ram. La suscripción gratuita solo me permitía tener hasta 4 cores.
 
-En [Provisionar máquinas de Azure con Vagrant](./azure.md) documento como he realizado el Vagrantfile para Azure.
 
 ## Ansible
 
-Para el provisionamiento he utilizado Ansible, he utilizado el fichero playbook-local.yml para la máquina
-local y playbook-azure.yml para la máquina en Azure.
+Para el provisionamiento he utilizado Ansible. Para el provisionamiento en local y en Google Cloud
+he usado el mismo playbook, ya que añadí un fichero docker-compose para desplegar los microservicios
+más rápido. Además también añadí un API Gateway con Nginx. La razón por la que no añadí este
+cambio al provisionamiento en Azure fue porque ya agoté el saldo de la cuenta gratuita.
 
-Se encargarán de:
+Por lo que el playbook en el provisionamiento en Azure se encarga de:
 
 - Actualizar el sistema.
-- Instalar pip.
+- Instalar pip a través de un rol Ansible Galaxy.
 - Instalar docker a través de un rol Ansible Galaxy.
 - Instalar el módulo de python "docker".
 - Descargar las imágenes docker.
-- Copiar los ficheros .env_pedidos y .env_productos
+- Copiar el fichero .env
 - Ejecutar las imágenes.
 
-Lo único en que se diferencian es en la forma que instala pip y el módulo de docker con pip.
+El playbook utilizado para Google Cloud y la máquina local;
 
-Para instalar docker he descargado el rol [docker](https://galaxy.ansible.com/geerlingguy/docker) desde [Galaxy Ansible](https://galaxy.ansible.com/search?deprecated=false&keywords=docker&order_by=-relevance&page=1) y he escogido el que más descargas tenía, que era el de gerlingguy. Para solucionar un error con pip a la hora de desplegar la máquina en Azure he utilizado el rol [pip](https://galaxy.ansible.com/geerlingguy/pip) en
-playbook-azure.yml.
+- Actualizar el sistema.
+- Instalar pip a través de un rol Ansible Galaxy.
+- Instalar docker a través de un rol Ansible Galaxy.
+- Instalar el módulo de python "docker".
+- Instalar el módulo de python "docker-compose".
+- Copiar el fichero docker-compose.yml.
+- Copiar el fichero .env
+- Copiar el fichero nginx.conf.
+- Levantar los microservicios con docker-compose.
 
-## Azure
+## Variables de entorno
 
-### Microservicio Productos
+En la raíz del repositorio hay que crear un fichero .env con las siguientes variables
 
-![azure-productos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/azure-productos.png)
+```
+DB_USERNAME=<username>
+DB_PASSWORD=<password>
+DB_NAME=<nombre_bd>
+DB_HOST=<ip_host_postgre>
+DB_PORT=<port_host_postgre>
+GUNI_PORT=8000
+WORKERS=<NUM_WORKERS>
+POSTGRES_USER=<username>
+POSTGRES_PASSWORD=<password>
+POSTGRES_DB=<nombre_bd>
+DB_URI=<adress_mongo>
+```
 
-### Microservicio Pedidos
 
-![azure-pedidos](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/azure-pedidos.png)
+Un ejemplo, podría ser el siguiente:
 
-## Rendimiento
+```
+DB_USERNAME=username
+DB_PASSWORD=password
+DB_NAME=ms_pedidos
+DB_HOST=postgres (postgres: nombre contenedor)
+DB_PORT=5432
+GUNI_PORT=8000
+WORKERS=8
+POSTGRES_USER=username
+POSTGRES_PASSWORD=password
+POSTGRES_DB=ms_pedidos
+DB_URI=mongodb://mongo:27017/productos (mongo: nombre contenedor)
+```
 
-### Máquina virtual local
 
-Microservicio de Productos en local:
+## Creación de las máquinas
 
-![terminal-productos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/terminal-productos-local.png)
-![bzm-productos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/bzm-productos-local.png)
+Para crear las máquinas y realizar el provisionamiento solamente hay qu posicionarse en una de las carpetas
+que hay en el directorio provision y ejecutar:
 
-Microservicio de Pedidos en local:
+```bash
+    vagrant up
+```
 
-![terminal-pedidos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/terminal-pedidos-local.png)
-![bzm-pedidos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/bzm-pedidos-local.png)
+## Provisionamientos
 
-### Máquina virtual en Azure
+Aquí puede ver información más detallada sobre cada uno de los provisionamientos:
 
-Microservicio de Productos en Azure:
-
-![terminal-productos-azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/terminal-productos-azure.png)
-![bzm-productos-azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/bzm-productos-azure.png)
-
-Microservicio de Pedidos en Azure:
-
-![terminal-pedidos-azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/terminal-pedidos-azure.png)
-![bzm-pedidos-azure](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/bzm-pedidos-azure.png)
-
-Como se puede observar, el rendimiento en Azure es muy bajo con 135 peticiones por segundo y 65ms de tiempo de respuesta medio para ambos microservicios.
+- [Azure](/doc/provisionAzure.md)
+- [Google Cloud](/doc/provisionGoogle.md)
+- [Local](/doc/provisionLocal.md)
 
 ## Referencias
 
