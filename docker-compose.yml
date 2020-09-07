@@ -1,0 +1,75 @@
+# Indicamos la versión de docker-compose que se va a usar en el fichero
+version: '3'
+
+# Crear redes
+networks:
+    productos_backend:
+    pedidos_backend:
+
+
+# Se incarán los contenedores que se van a desplegar
+services:
+
+    # Base de datos postgres
+    postgres:
+        image: postgres
+        container_name: postgres
+        environment: 
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+        networks:
+            - pedidos_backend
+
+    # Microservicio pedidos
+    pedidos:
+        container_name: pedidos
+        image: tonimr/cc-gestion-productos:pedidos-lite
+
+        environment: 
+            - DB_USERNAME=${DB_USERNAME}
+            - DB_PASSWORD=${DB_PASSWORD}
+            - DB_NAME=${DB_NAME}
+            - DB_HOST=${DB_HOST}
+            - DB_PORT=${DB_PORT}
+            - GUNI_HOSTS=${GUNI_HOSTS}
+            - GUNI_PORT=${GUNI_PORT}
+            - WORKERS=${WORKERS}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+
+        depends_on: 
+            - postgres
+
+        networks:
+            - pedidos_backend
+
+        ports: 
+            - 8000:8000
+
+
+
+    # Base de datos mongo
+    mongo:
+        image: mongo
+        container_name: mongo
+        networks:
+            - productos_backend
+
+    # Microservicio productos
+    productos:
+        container_name: productos
+        image: tonimr/cc-gestion-productos:productos-lite
+
+        environment: 
+            - DB_URI=${DB_URI}
+
+        depends_on: 
+            - mongo
+
+        networks:
+            - productos_backend
+
+        ports: 
+            - 8080:8080
