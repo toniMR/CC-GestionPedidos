@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
     # Establecer configuración de provisionamiento
     config.vm.provision :ansible do |ansible|
       # Indica la ruta en la que encuentra el archivo playbook.yml
-      ansible.playbook = "../playbook-azure.yml"
+      ansible.playbook = "./playbook-azure.yml"
     end
   end
 end

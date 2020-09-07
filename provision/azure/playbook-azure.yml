@@ -17,7 +17,7 @@
     - geerlingguy.pip
     - geerlingguy.docker
 
-  # Especificamos las tareas del playbook:
+  # Establecer tareas:
   tasks:
     # Actualizar sistema
     - name: Apt | Update
@@ -25,14 +25,14 @@
         update_cache: 'yes'
 
     # Descargar la imagen desde Docker Hub del microservicio Productos:
-    - name: Docker | Pull productos image
+    - name: docker pull productos image
       docker_image:
         name: tonimr/cc-gestion-productos:productos
         source: pull
         
 
     # Descargar la imagen desde Docker Hub del microservicio Pedidos:
-    - name: Docker | Pull pedidos image
+    - name: docker pull pedidos image
       docker_image:
         name: tonimr/cc-gestion-productos:pedidos
         source: pull
@@ -40,19 +40,14 @@
     
     # Copiar los ficheros .env de cada microservicio para establecer
     # las variables de entorno necesarias.
-    - name: Env | copy productos env_file
+    - name: copy .env
       copy:
         src: ../.env_productos
-        dest: /etc/.env_productos
-
-    - name: Env | copy pedidos env_file
-      copy:
-        src: ../.env_pedidos
-        dest: /etc/.env_pedidos
+        dest: /etc/.env
 
     
     # Ejecutar el contenedor de productos:
-    - name: Docker | Run productos container
+    - name: docker run productos container
       docker_container:
         name: productos
         image: tonimr/cc-gestion-productos:productos
@@ -62,7 +57,7 @@
         # al contenedor desde ese puerto
         published_ports: 8080:8080
         # Indicar la ruta del archivo .env de los productos:
-        env_file: /etc/.env_productos
+        env_file: /etc/.env
 
 
     # Ejecutar el contenedor de pedidos:
@@ -76,4 +71,5 @@
         # al contenedor desde ese puerto
         published_ports: 8000:8000
         # Indicar la ruta del archivo .env de los productos:
-        env_file: /etc/.env_pedidos
+        env_file: /etc/.env
+        
