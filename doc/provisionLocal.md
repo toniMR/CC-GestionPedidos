@@ -95,8 +95,8 @@ tasks:
 
 Microservicio de Productos en local:
 
-![terminal-productos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/local/provision/provision-terminal-productos-local.png)
-![bzm-productos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/local/provision/provision-bzm-productos-local.png)
+![terminal-productos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/local/provision-terminal-productos-local.png)
+![bzm-productos-local](https://github.com/toniMR/CC-GestionPedidos/blob/master/doc/img/provisionamiento/local/provision-bzm-productos-local.png)
 
 ## Microservicio Pedidos
 
