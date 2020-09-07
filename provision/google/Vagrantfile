@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Este fichero sirve para crear con Vagrant la máquina virtual que 
+# alojará ambos microservicios en Google Cloud
+
+# Especificar el uso de la versión 1.1+ hasta 2.0.x de vagrant
+Vagrant.configure("2") do |config|
+
+  # Configurar la box
+  config.vm.box = "google/gce"
+
+  # Network
+  # -----------------------------------------------------------------------
+  # Google provider no permite ninguna configuración de red de alto nivel
+  # creada en Vagrant. Por lo que la redirección de puertos se realizará
+  # posteriormente con el SDK de Google Cloud.
+
+  # Establece la configuración de la máquina para un proveedor específico
+  # Crea una variable, en mi caso llamada google para realizar la configuración
+  config.vm.provider :google do |google, override|
+
+    # Id del proyecto en Google Cloud
+    google.google_project_id = "cloudcomputing-288611"
+    
+    google.google_json_key_location = "./cloudcomputing-288611-6cd514040cda.json"
+
+    # Nombre que le daremos a la instancia
+    google.name = "cc-tonimr"
+    # Espeficar donde se alojara la máquina
+    google.zone = "europe-west2-b"
+    # Tipo de máquina
+    google.machine_type = "n1-standard-4"
+    google.image_project_id = "ubuntu-os-cloud"
+    google.image = "ubuntu-2004-focal-v20200902"
+    
+    # Establecer nombre de usuario y ubicacion de la clave
+    # con la que accederemos a la máquina.
+    override.ssh.username = "antonio"
+    override.ssh.private_key_path = "~/.ssh/id_rsa"
+  end
+
+
+  config.vm.define "gp_google" do |gestionpedidos|
+    # Establecer configuración de provisionamiento
+    config.vm.provision :ansible do |ansible|
+      # ansible.verbose = 'vvv'
+      # Indica la ruta en la que encuentra el archivo playbook.yml
+      ansible.playbook = "./playbook-google.yml"
+    end
+  end
+end

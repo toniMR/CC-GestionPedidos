@@ -1,0 +1,53 @@
+---
+  - hosts: all
+    remote_user: toniMR
+    # Permitir escalada de privilegios
+    become: yes
+
+    
+    pre_tasks:
+      # Actualizar sistema
+      - name: Apt update
+        apt:
+          update_cache: 'yes'
+
+  
+    # Indicar a pip que instale el módulo de docker
+    vars:
+      pip_install_packages:
+        - docker
+        - docker-compose
+
+
+    # Roles utilizados
+    roles:
+      # Instalar docker con un rol descargado desde Ansible galaxy
+      - geerlingguy.docker
+      - geerlingguy.pip
+
+
+    # Especificamos las tareas del playbook:
+    tasks:
+  
+      - name: Copiar fichero .env
+        copy:
+          src: ../../.env
+          dest: ./.env
+
+      - name: Copiar carpeta api_gateway
+        copy:
+          src: ../../api_gateway
+          dest: ./
+  
+      - name: Copiar fichero docker-compose.yml
+        copy:
+          src: ../../docker-compose.yml
+          dest: ./docker-compose.yml
+  
+  
+      # Levantar todos los contenedores con docker-compose:
+      - name: Levantar contenedores
+        docker_compose:
+          project_src: ./
+
+          
