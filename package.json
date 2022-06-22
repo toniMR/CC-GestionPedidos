@@ -4,7 +4,7 @@
   "description": "Desarrollo del microservicio de productos para la asignatura CC",
   "main": "app.js",
   "dependencies": {
-    "async": "^3.1.0",
+    "async": "^3.2.2",
     "express": "^4.17.1",
     "inversify": "^5.0.1",
     "mongoose": "^5.8.0",
